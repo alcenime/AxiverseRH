@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AXIVERSE — Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#8fd8ff;
+  --sky2:#dff6ff;
+  --forest:#244b35;
+  --forest2:#3d7750;
+  --gold:#e8b84a;
+  --gold2:#fff0ad;
+  --cream:#fffaf0;
+  --paper:#fffdf7;
+  --ink:#17221d;
+  --muted:#69756d;
+  --line:rgba(72,60,36,.16);
+  --soft:#f7f1df;
+  --shadow:0 18px 45px rgba(33,51,42,.15);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Manrope,Arial,sans-serif;
+  color:var(--ink);
+  background:#8fcdf0 url('backgrounddocs.jpg') center top / cover fixed no-repeat;
+  line-height:1.5;
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.14));
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+
+.wrap{max-width:1440px;margin:auto;padding:0 30px}
+.nav{
+  height:78px;
+  background:rgba(22,48,38,.92);
+  border-bottom:1px solid rgba(255,240,173,.25);
+  display:flex;align-items:center;position:sticky;top:0;z-index:30;
+  backdrop-filter:blur(14px);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+.logo{
+  color:#fffdf2;font-family:Georgia,serif;font-size:27px;font-weight:800;
+  letter-spacing:-.04em;position:relative;padding-left:34px;
+}
+.logo:before{
+  content:"✦";position:absolute;left:0;top:-3px;color:var(--gold2);font-size:25px;
+  text-shadow:0 0 16px rgba(255,220,91,.55)
+}
+.logo:after{
+  content:"SUMMON  ·  STAKE  ·  EARN";
+  display:block;color:#d8cfae;font-family:Manrope,sans-serif;font-size:7px;
+  letter-spacing:.23em;font-weight:800;margin-top:-2px;
+}
+.nav-links{display:flex;gap:10px;align-items:center}
+.nav-links a{
+  color:#e8efe9;font-size:12px;font-weight:800;padding:10px 16px;border-radius:999px;
+}
+.nav-links a:hover{background:rgba(255,255,255,.09)}
+.nav-links a.active{
+  color:#17221d;background:linear-gradient(180deg,#fff4bd,#e5b94d);
+  box-shadow:0 5px 18px rgba(229,185,77,.28)
+}
+.wallet{
+  background:linear-gradient(180deg,#fff0a8,#d9a738);color:#19251f;
+  padding:13px 19px;border-radius:999px;font-size:11px;font-weight:900;
+  border:1px solid #fff2b9;box-shadow:0 6px 18px rgba(0,0,0,.16)
+}
+
+.docs-layout{
+  max-width:1440px;margin:auto;display:grid;grid-template-columns:270px 1fr;
+  min-height:calc(100vh - 78px);position:relative;
+}
+.sidebar{
+  min-height:calc(100vh - 78px);padding:28px 18px;
+  border-right:1px solid rgba(66,55,34,.18);
+  background:linear-gradient(180deg,rgba(255,251,235,.96),rgba(239,235,207,.93));
+  position:sticky;top:78px;height:calc(100vh - 78px);overflow:auto;
+  box-shadow:8px 0 30px rgba(31,48,37,.08);
+}
+.sidebar:before{
+  content:"";display:block;height:5px;border-radius:99px;margin:0 5px 20px;
+  background:linear-gradient(90deg,#8c6424,#f5d777,#8c6424);
+}
+.side-label{
+  font-family:Georgia,serif;font-size:10px;letter-spacing:.2em;font-weight:800;
+  color:#7d6331;margin:20px 10px 9px;
+}
+.side-label:first-child{margin-top:0}
+.side a{
+  display:block;padding:9px 12px;border-radius:9px;font-size:11px;color:#4c554e;
+  margin:2px 0;border:1px solid transparent;
+}
+.side a:hover{background:rgba(255,255,255,.65);color:var(--ink)}
+.side a.active{
+  background:linear-gradient(90deg,#e9ca77,#fff5ce);color:#26332b;font-weight:900;
+  border-color:rgba(142,101,33,.22);box-shadow:0 4px 12px rgba(84,66,31,.09)
+}
+
+.content{
+  min-width:0;position:relative;overflow:hidden;
+  background:rgba(255,255,255,.06);
+}
+.content:before,.content:after{
+  content:"";position:absolute;pointer-events:none;z-index:0;
+}
+.content:before{
+  width:240px;height:110px;right:5%;top:28px;border-radius:50%;
+  background:rgba(255,255,255,.28);filter:blur(5px);
+}
+.content:after{
+  width:170px;height:70px;left:12%;top:105px;
+  background:rgba(255,255,255,.3);border-radius:50%;filter:blur(7px);
+}
+.page-main{max-width:1120px;margin:0 auto;padding:44px 46px 80px;position:relative;z-index:1}
+.page-card{
+  background:linear-gradient(180deg,rgba(255,254,248,.98),rgba(255,250,235,.98));
+  border:1px solid rgba(153,113,45,.3);border-radius:25px;padding:50px 52px 56px;
+  box-shadow:var(--shadow);min-height:700px;position:relative;overflow:hidden;
+}
+.page-card:before{
+  content:"";position:absolute;inset:10px;border:1px solid rgba(198,157,68,.2);
+  border-radius:18px;pointer-events:none;
+}
+.page-card:after{
+  content:"✦";position:absolute;right:32px;top:24px;color:#d8ad42;font-size:18px;
+}
+.kicker{
+  font-family:Georgia,serif;font-size:10px;letter-spacing:.22em;font-weight:800;
+  color:#9b752c
+}
+h1{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(40px,5vw,64px);line-height:1.02;letter-spacing:-.045em;
+  margin:12px 0 16px;color:#1c2a23
+}
+.lead{font-size:15px!important;line-height:1.75!important;color:var(--muted);max-width:790px!important;margin:0}
+.doc-body{max-width:830px;margin-top:34px}
+.doc-body h3{
+  font-family:Georgia,serif;font-size:21px;letter-spacing:-.02em;margin:34px 0 10px;color:#26362d
+}
+.doc-body p{font-size:14px;color:var(--muted);line-height:1.8;margin:0 0 16px}
+.doc-body ul{padding-left:21px;color:var(--muted);font-size:13px;line-height:1.9}
+.formula{
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+  margin:25px 0;padding:18px 20px;background:linear-gradient(180deg,#fff8dc,#f5edcf);
+  border:1px solid rgba(170,126,45,.25);border-radius:15px;font-size:11px;font-weight:900;
+  color:#35483b;box-shadow:0 8px 18px rgba(80,67,35,.06)
+}
+.formula b{font-size:15px;color:#b18431}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.doc-box{
+  background:linear-gradient(145deg,#fffdf4,#f4eed9);border:1px solid rgba(170,126,45,.22);
+  border-radius:16px;padding:19px;box-shadow:0 7px 17px rgba(70,61,36,.05)
+}
+.doc-box b{display:block;font-family:Georgia,serif;font-size:15px;margin-bottom:6px;color:#34463b}
+.doc-box span{font-size:11px;color:var(--muted);line-height:1.55}
+.detail-list{margin-top:24px;border-top:1px solid var(--line)}
+.detail-list>div{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:17px 0;border-bottom:1px solid var(--line)}
+.detail-list b{font-family:Georgia,serif;font-size:13px}
+.detail-list span{font-size:12px;color:var(--muted)}
+.level-chain{display:grid;grid-template-columns:1fr auto 1fr;gap:10px 12px;margin-top:24px;align-items:center}
+.level-chain span{
+  background:linear-gradient(180deg,#fff7d8,#f1e7c8);border:1px solid rgba(170,126,45,.24);
+  border-radius:11px;padding:13px;font-size:11px;font-weight:900;text-align:center
+}
+.raritys,.rarities{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.rarities span{
+  background:linear-gradient(180deg,#fff8d8,#efe2bd);border:1px solid rgba(170,126,45,.24);
+  border-radius:999px;padding:10px 14px;font-size:10px;font-weight:900
+}
+.note{font-size:11px!important;color:#7c704f!important}
+
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:32px}
+.overview-card{
+  appearance:none;text-align:left;color:var(--ink);display:grid;grid-template-columns:auto 1fr auto;
+  gap:10px;align-items:start;background:#fffdf4;border:1px solid rgba(170,126,45,.24);
+  border-radius:17px;padding:0;cursor:pointer;transition:.2s;overflow:hidden;
+  box-shadow:0 8px 20px rgba(70,61,36,.06);position:relative
+}
+.overview-card:hover{transform:translateY(-3px);box-shadow:0 13px 28px rgba(70,61,36,.12)}
+.overview-card:before{
+  content:"";grid-column:1/-1;height:86px;
+  background:
+    radial-gradient(circle at 76% 42%,rgba(255,244,168,.9) 0 12px,transparent 13px),
+    linear-gradient(135deg,#8ed7ee,#5a9e79 55%,#d9e8ad);
+  border-bottom:1px solid rgba(170,126,45,.18)
+}
+.overview-card:nth-child(2):before{background:linear-gradient(135deg,#9bdcf0,#75ad8a 48%,#dfe9bd)}
+.overview-card:nth-child(3):before{background:linear-gradient(135deg,#344d57,#b98739 48%,#f5d978)}
+.overview-card:nth-child(4):before{background:linear-gradient(135deg,#8e8bc4,#5c4d88 52%,#e4b866)}
+.overview-card b,.overview-card strong,.overview-card span,.overview-card em{margin-left:20px}
+.overview-card b{font-size:10px;color:#9a772f;padding-top:16px}
+.overview-card strong{font-family:Georgia,serif;font-size:15px;padding-top:15px}
+.overview-card span{grid-column:2/3;font-size:11px;color:var(--muted);padding-bottom:18px}
+.overview-card em{
+  grid-column:3;grid-row:2/4;align-self:center;margin-right:17px;
+  width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  background:#e8bf59;color:#24332a;font-style:normal;font-weight:900
+}
+.official-links-grid{grid-template-columns:repeat(2,1fr)}
+.official-link{display:block;transition:.18s}
+.official-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(17,19,24,.08)}
+
+.page-nav{
+  display:flex;justify-content:space-between;gap:14px;margin-top:52px;padding-top:24px;
+  border-top:1px solid var(--line)
+}
+.page-nav button{
+  appearance:none;background:linear-gradient(180deg,#fff8df,#f1e7ca);
+  border:1px solid rgba(170,126,45,.25);border-radius:14px;padding:14px 18px;
+  text-align:left;cursor:pointer;min-width:190px;box-shadow:0 5px 13px rgba(70,61,36,.05)
+}
+.page-nav button.next{text-align:right}
+.page-nav small{display:block;font-size:9px;letter-spacing:.14em;color:#9b7833;font-weight:900;margin-bottom:5px}
+.page-nav strong{font-family:Georgia,serif;font-size:12px}
+
+footer{
+  background:linear-gradient(180deg,#18382d,#10271f);color:#fff;padding:42px 0;
+  border-top:1px solid rgba(255,226,126,.22)
+}
+.footer{display:flex;justify-content:space-between;align-items:end}
+.footer-logo{font-family:Georgia,serif;font-size:23px;font-weight:800}
+.footer small{color:#b7c2b8;font-size:9px;letter-spacing:.18em}
+.footer-links{display:flex;gap:24px;font-size:11px;font-weight:800}
+.accent{color:#e9c45d}
+
+@media(max-width:900px){
+  .docs-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .page-main{padding:34px 28px}
+  .doc-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .wrap{padding:0 16px}.nav{height:66px}.nav-links{display:none}
+  .wallet{padding:11px 14px}.logo{font-size:20px;padding-left:27px}
+  .logo:before{font-size:20px}.logo:after{font-size:5.5px;letter-spacing:.16em}
+  .page-main{padding:20px 13px 48px}.page-card{padding:30px 23px 38px;min-height:620px;border-radius:20px}
+  h1{font-size:39px}.overview-grid{grid-template-columns:1fr}
+  .doc-grid,.official-links-grid{grid-template-columns:1fr}
+  .detail-list>div{grid-template-columns:1fr;gap:5px}
+  .level-chain{grid-template-columns:1fr}.level-chain b{transform:rotate(90deg);justify-self:center}
+  .page-nav button{min-width:0;flex:1}.footer{align-items:flex-start;gap:25px;flex-direction:column}
+}
+
+@media(max-width:640px){
+  body{background-attachment:scroll;background-position:center top;background-size:auto 100%;}
+}
+</style></head><body>
+<header class="nav"><div class="wrap nav-inner"><div class="logo">AXIVERSE</div><nav class="nav-links"><a href="index.html">Home</a><a href="nft.html">NFT</a><a href="stake.html">Stake</a><a class="active" href="docs.html">Docs</a></nav><a class="wallet" href="#">CONNECT WALLET</a></div></header>
+<div class="docs-layout"><aside class="sidebar"><nav class="side"><div class="side-label">DOCUMENTATION</div><a href="#" data-page="overview">⌂ &nbsp; Overview</a><div class="side-label">GET STARTED</div><a href="#" data-page="what-is-axiverse">What is Axiverse?</a><a href="#" data-page="the-ecosystem">The Ecosystem</a><a href="#" data-page="core-features">Core Features</a><a href="#" data-page="roadmap">Roadmap</a><div class="side-label">NFT SYSTEM</div><a href="#" data-page="summon">Summon</a><a href="#" data-page="burn-mechanism">Burn Mechanism</a><a href="#" data-page="craft-upgrade">Craft / Upgrade</a><a href="#" data-page="rarity-tiers">Rarity Tiers</a><a href="#" data-page="level-system">Level System</a><a href="#" data-page="collection">Collection</a><div class="side-label">STAKING</div><a href="#" data-page="stake-nfts">Stake NFTs</a><a href="#" data-page="earn-usdg">Earn USDG</a><a href="#" data-page="rewards-apy">Rewards & APY</a><div class="side-label">ECONOMY</div><a href="#" data-page="usdg">USDG</a><a href="#" data-page="token-utility">Token Utility</a><a href="#" data-page="sustainability">Sustainability</a><div class="side-label">TECHNICAL</div><a href="#" data-page="smart-contract">Smart Contract</a><a href="#" data-page="security">Security</a><a href="#" data-page="official-links">Official Links</a><div class="side-label">LEGAL</div><a href="#" data-page="risks-disclaimers">Risks & Disclaimers</a><a href="#" data-page="terms">Terms of Service</a><a href="#" data-page="privacy">Privacy Policy</a></nav></aside><main class="content" id="docsApp"></main></div>
+<footer><div class="wrap footer"><div><div class="footer-logo">AXIVERSE</div><small>A LIVING NFT ECOSYSTEM · SUMMON · STAKE · EARN.</small></div><div class="footer-links"><a href="index.html">Home</a><a href="nft.html">NFT</a><a href="stake.html">Stake</a><a href="docs.html">Docs</a><a class="accent" href="https://x.com/axiverseRH" target="_blank" rel="noopener">X</a></div></div></footer>
+
+<script>
+const PAGES={"overview": {"cat": "DOCUMENTATION", "title": "Welcome to Axiverse Docs", "lead": "Everything you need to know about Axiverse — its NFT ecosystem, progression system, staking, and token economy.", "body": "<div class=\"overview-grid\"><button class=\"overview-card\" data-page=\"what-is-axiverse\"><b>01</b><strong>What is Axiverse?</strong><span>Learn what Axiverse is and how the ecosystem works.</span><em>→</em></button><button class=\"overview-card\" data-page=\"the-ecosystem\"><b>02</b><strong>The Ecosystem</strong><span>Understand how AXI, NFTs, and USDG connect.</span><em>→</em></button><button class=\"overview-card\" data-page=\"core-features\"><b>03</b><strong>Core Features</strong><span>Explore Summon, Craft, rarity, levels, and staking.</span><em>→</em></button><button class=\"overview-card\" data-page=\"roadmap\"><b>04</b><strong>Roadmap</strong><span>Follow confirmed development milestones.</span><em>→</em></button></div>"}, "what-is-axiverse": {"cat": "GET STARTED", "title": "What is Axiverse?", "lead": "Axiverse is a living NFT ecosystem built around collectible creatures, progression, and utility.", "body": "<div class=\"doc-body\"><h3>The idea</h3><p>Axiverse combines collectible NFTs with a progression system and an on-chain reward ecosystem. NFTs can be summoned, upgraded through Craft, and staked for USDG rewards.</p><h3>The core journey</h3><p>Users use AXI to Summon NFTs, build their collection, progress NFTs through five levels, and stake eligible NFTs to participate in the USDG reward system.</p><div class=\"formula\">SUMMON <b>→</b> CRAFT <b>→</b> STAKE <b>→</b> USDG</div></div>"}, "the-ecosystem": {"cat": "GET STARTED", "title": "The Ecosystem", "lead": "Three core components work together to form the Axiverse economy.", "body": "<div class=\"doc-body\"><div class=\"doc-grid\"><div class=\"doc-box\"><b>AXI</b><span>Used to pay for Summon. The AXI payment is burned.</span></div><div class=\"doc-box\"><b>NFT</b><span>The collectible asset used for collection, progression, Craft, and staking.</span></div><div class=\"doc-box\"><b>USDG</b><span>The reward asset distributed through NFT staking.</span></div></div><h3>How they connect</h3><p>AXI provides the Summon utility. NFTs provide the collectible and progression layer. USDG is used for staking rewards, with the intended reward source coming from fees generated by the AXI/USDG pair on Pons.</p></div>"}, "core-features": {"cat": "GET STARTED", "title": "Core Features", "lead": "The main systems that make up Axiverse.", "body": "<div class=\"doc-body\"><div class=\"detail-list\"><div><b>Summon</b><span>Pay AXI to receive a new NFT. The AXI payment is burned.</span></div><div><b>Craft / Upgrade</b><span>Combine two NFTs at the same level to create one NFT at the next level.</span></div><div><b>Rarity</b><span>Common, Uncommon, Rare, Epic, and Legendary.</span></div><div><b>Levels</b><span>NFT progression runs from Lv.1 through Lv.5.</span></div><div><b>Staking</b><span>Stake eligible NFTs to participate in USDG rewards.</span></div></div></div>"}, "roadmap": {"cat": "GET STARTED", "title": "Roadmap", "lead": "The roadmap communicates confirmed development milestones for Axiverse.", "body": "<div class=\"doc-body\"><h3>Development</h3><p>Axiverse will publish roadmap milestones as development progresses. Unconfirmed dates and unreleased features are not presented as official commitments.</p><h3>Focus</h3><ul><li>Build the core NFT ecosystem.</li><li>Develop Summon and Craft mechanics.</li><li>Develop NFT staking and the USDG reward system.</li><li>Publish final technical references when ready.</li></ul></div>"}, "summon": {"cat": "NFT SYSTEM", "title": "Summon", "lead": "Summon is how users create a new Axiverse NFT.", "body": "<div class=\"doc-body\"><h3>How it works</h3><p>Users pay AXI to use Summon. The AXI used for the payment is burned, and the user receives a new NFT.</p><div class=\"formula\">USER <b>→</b> PAY AXI <b>→</b> AXI BURN <b>→</b> SUMMON <b>→</b> NFT</div><p class=\"note\">Summon does not require burning an existing NFT.</p></div>"}, "burn-mechanism": {"cat": "NFT SYSTEM", "title": "Burn Mechanism", "lead": "Axiverse has separate burn and NFT-consumption mechanics.", "body": "<div class=\"doc-body\"><h3>AXI burn</h3><p>The AXI payment used for Summon is burned.</p><h3>NFT consumption</h3><p>Craft is a separate mechanism. Two NFTs are consumed to create one NFT at the next level.</p><div class=\"doc-grid\"><div class=\"doc-box\"><b>Summon</b><span>AXI payment → AXI is burned.</span></div><div class=\"doc-box\"><b>Craft</b><span>Two NFTs → consumed for the upgrade.</span></div></div></div>"}, "craft-upgrade": {"cat": "NFT SYSTEM", "title": "Craft / Upgrade", "lead": "Craft allows NFT holders to progress through the five-level system.", "body": "<div class=\"doc-body\"><h3>Level progression</h3><p>Two NFTs at the same level are consumed to create one NFT at the next level.</p><div class=\"level-chain\"><span>Lv.1 + Lv.1</span><b>→</b><span>Lv.2</span><span>Lv.2 + Lv.2</span><b>→</b><span>Lv.3</span><span>Lv.3 + Lv.3</span><b>→</b><span>Lv.4</span><span>Lv.4 + Lv.4</span><b>→</b><span>Lv.5</span></div></div>"}, "rarity-tiers": {"cat": "NFT SYSTEM", "title": "Rarity Tiers", "lead": "Every Axiverse NFT belongs to one of five rarity tiers.", "body": "<div class=\"doc-body\"><div class=\"rarities\"><span>COMMON</span><span>UNCOMMON</span><span>RARE</span><span>EPIC</span><span>LEGENDARY</span></div><h3>Visual variation</h3><p>NFTs remain part of the same recognizable creature family while individual traits can vary, including face, eyes, mouth, body shape, ears or horns, colors, markings, patterns, tail, accessories, and background.</p></div>"}, "level-system": {"cat": "NFT SYSTEM", "title": "Level System", "lead": "NFT progression is divided into five levels.", "body": "<div class=\"doc-body\"><div class=\"formula\">Lv.1 <b>→</b> Lv.2 <b>→</b> Lv.3 <b>→</b> Lv.4 <b>→</b> Lv.5</div><h3>Level and rarity</h3><p>Level represents progression through Craft, while rarity represents the NFT rarity tier. They are separate properties.</p></div>"}, "collection": {"cat": "NFT SYSTEM", "title": "Collection", "lead": "Build a collection of recognizable Axiverse creatures with varied traits.", "body": "<div class=\"doc-body\"><h3>One creature universe</h3><p>Axiverse is built around a recognizable creature family rather than unrelated species for every NFT.</p><h3>Trait variation</h3><p>Individual NFTs can vary in face, eyes, mouth, body shape and proportions, ears or horns, colors, markings, patterns, tail, accessories, and background while remaining part of the same creature universe.</p></div>"}, "stake-nfts": {"cat": "STAKING", "title": "Stake NFTs", "lead": "Stake eligible Axiverse NFTs to participate in the USDG reward system.", "body": "<div class=\"doc-body\"><h3>Staking</h3><p>Users can stake eligible Axiverse NFTs through the staking system. The NFT is the asset being staked while it participates in the reward mechanism.</p><h3>Reward participation</h3><p>Staking is the path through which NFT holders participate in USDG rewards. The effective reward depends on the live staking rules and available reward pool.</p></div>"}, "earn-usdg": {"cat": "STAKING", "title": "Earn USDG", "lead": "USDG is the reward asset used by the Axiverse NFT staking system.", "body": "<div class=\"doc-body\"><h3>Reward source</h3><p>The intended source of staking rewards is the trading fee generated by the AXI/USDG pair on Pons. The project claims those fees and allocates them toward staking rewards.</p><div class=\"formula\">AXI / USDG <b>→</b> TRADING FEES <b>→</b> PROJECT CLAIMS FEES <b>→</b> REWARD POOL <b>→</b> STAKERS</div><h3>What this means</h3><p>USDG rewards are tied to the fee flow available to the staking system and are not presented as a guaranteed fixed emission.</p></div>"}, "rewards-apy": {"cat": "STAKING", "title": "Rewards & APY", "lead": "Staking rewards depend on the available reward pool and final staking parameters.", "body": "<div class=\"doc-body\"><h3>What can affect rewards</h3><ul><li>Trading activity on the AXI/USDG pair.</li><li>Fees generated and claimed for the reward system.</li><li>The amount of NFTs participating in staking.</li><li>The final reward allocation and staking formula.</li></ul><p class=\"note\">No fixed APY is presented until the final staking formula is officially defined.</p></div>"}, "usdg": {"cat": "ECONOMY", "title": "USDG", "lead": "USDG is the reward asset used in the Axiverse staking system.", "body": "<div class=\"doc-body\"><h3>Role of USDG</h3><p>USDG is distributed as the reward asset for NFT staking. The intended reward source is fees generated by the AXI/USDG pair on Pons and claimed by the project for allocation to the staking reward pool.</p></div>"}, "token-utility": {"cat": "ECONOMY", "title": "Token Utility", "lead": "AXI's defined core utility is Summon.", "body": "<div class=\"doc-body\"><h3>AXI utility</h3><p>Users use AXI to pay for a new NFT through Summon. The AXI used for the Summon payment is burned.</p><div class=\"formula\">AXI <b>→</b> SUMMON PAYMENT <b>→</b> BURN</div></div>"}, "sustainability": {"cat": "ECONOMY", "title": "Sustainability", "lead": "The Axiverse economy connects token utility, NFTs, progression, staking, and rewards.", "body": "<div class=\"doc-body\"><h3>Reward sustainability</h3><p>The sustainability of USDG rewards depends on actual ecosystem activity and the fees available to the staking reward mechanism. Rewards are not described as guaranteed returns.</p></div>"}, "smart-contract": {"cat": "TECHNICAL", "title": "Smart Contract", "lead": "Official contract references will be published when the final contracts are deployed.", "body": "<div class=\"doc-body\"><h3>Official references</h3><p>This section will contain verified contract addresses and technical references once they are final.</p><p class=\"note\">Always verify contract addresses through official Axiverse channels.</p></div>"}, "security": {"cat": "TECHNICAL", "title": "Security", "lead": "Security documentation covers the contracts and mechanisms users interact with.", "body": "<div class=\"doc-body\"><h3>What users should verify</h3><ul><li>Contract addresses and verification status.</li><li>Contract permissions and behavior.</li><li>Summon and AXI burn behavior.</li><li>NFT Craft and staking behavior.</li><li>Any published audit or security review.</li></ul></div>"}, "official-links": {"cat": "TECHNICAL", "title": "Official Links", "lead": "These are the official Axiverse destinations.", "body": "<div class=\"doc-body\"><div class=\"doc-grid official-links-grid\"><a class=\"doc-box official-link\" href=\"https://axiverse.xyz\" target=\"_blank\" rel=\"noopener\"><b>Website</b><span>axiverse.xyz ↗</span></a><a class=\"doc-box official-link\" href=\"https://x.com/axiverseRH\" target=\"_blank\" rel=\"noopener\"><b>X</b><span>@axiverseRH ↗</span></a></div></div>"}, "risks-disclaimers": {"cat": "LEGAL", "title": "Risks & Disclaimers", "lead": "Important information about the risks of digital assets and blockchain applications.", "body": "<div class=\"doc-body\"><h3>Digital asset risk</h3><p>Digital assets and blockchain applications involve significant risks. NFT values can fluctuate, smart contracts may contain vulnerabilities, and blockchain transactions may be irreversible.</p><h3>Rewards</h3><p>USDG staking rewards depend on the actual reward mechanism and available fees and are not guaranteed. Axiverse does not promise profits or future returns.</p></div>"}, "terms": {"cat": "LEGAL", "title": "Terms of Service", "lead": "The Terms of Service define the rules for using Axiverse.", "body": "<div class=\"doc-body\"><p>The final Terms of Service should cover platform usage, user responsibilities, digital assets, blockchain transactions, third-party services, intellectual property, prohibited activities, disclaimers, liability, and service changes.</p><p class=\"note\">Final legal terms should be reviewed and finalized before launch.</p></div>"}, "privacy": {"cat": "LEGAL", "title": "Privacy Policy", "lead": "The Privacy Policy explains how information is handled by Axiverse.", "body": "<div class=\"doc-body\"><h3>Privacy & data</h3><p>The policy should explain information collected through the website and services, how it is used, retention, third-party services, security practices, user rights, and contact information.</p><h3>Blockchain transparency</h3><p>Wallet addresses and blockchain activity can be publicly visible on-chain. The policy should distinguish public blockchain data from information collected directly by Axiverse.</p></div>"}};
+const ORDER=["overview", "what-is-axiverse", "the-ecosystem", "core-features", "roadmap", "summon", "burn-mechanism", "craft-upgrade", "rarity-tiers", "level-system", "collection", "stake-nfts", "earn-usdg", "rewards-apy", "usdg", "token-utility", "sustainability", "smart-contract", "security", "official-links", "risks-disclaimers", "terms", "privacy"];
+const TITLES={"overview": "Welcome to Axiverse Docs", "what-is-axiverse": "What is Axiverse?", "the-ecosystem": "The Ecosystem", "core-features": "Core Features", "roadmap": "Roadmap", "summon": "Summon", "burn-mechanism": "Burn Mechanism", "craft-upgrade": "Craft / Upgrade", "rarity-tiers": "Rarity Tiers", "level-system": "Level System", "collection": "Collection", "stake-nfts": "Stake NFTs", "earn-usdg": "Earn USDG", "rewards-apy": "Rewards & APY", "usdg": "USDG", "token-utility": "Token Utility", "sustainability": "Sustainability", "smart-contract": "Smart Contract", "security": "Security", "official-links": "Official Links", "risks-disclaimers": "Risks & Disclaimers", "terms": "Terms of Service", "privacy": "Privacy Policy"};
+
+function renderPage(slug,push=true){
+  if(!PAGES[slug]) slug="overview";
+  const p=PAGES[slug], i=ORDER.indexOf(slug), prev=i>0?ORDER[i-1]:null, next=i<ORDER.length-1?ORDER[i+1]:null;
+  const nav='<div class="page-nav">'+(prev?'<button data-page="'+prev+'"><small>PREVIOUS</small><strong>← '+TITLES[prev]+'</strong></button>':'<span></span>')+(next?'<button class="next" data-page="'+next+'"><small>NEXT</small><strong>'+TITLES[next]+' →</strong></button>':'<span></span>')+'</div>';
+  document.getElementById("docsApp").innerHTML='<div class="page-main"><article class="page-card"><div class="kicker">'+p.cat+'</div><h1>'+p.title+'</h1><p class="lead">'+p.lead+'</p>'+p.body+nav+'</article></div>';
+  document.querySelectorAll(".side a[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===slug));
+  document.title="AXIVERSE — "+p.title;
+  if(push) history.pushState({slug},"",slug==="overview"?"docs.html":"docs.html?page="+encodeURIComponent(slug));
+  window.scrollTo(0,0);
+}
+document.addEventListener("click",e=>{const el=e.target.closest("[data-page]");if(!el)return;e.preventDefault();renderPage(el.dataset.page)});
+window.addEventListener("popstate",()=>renderPage(new URLSearchParams(location.search).get("page")||"overview",false));
+renderPage(new URLSearchParams(location.search).get("page")||"overview",false);
+</script>
+</body></html>
