@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AXIVERSE — NFT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#C8FF00;--lime-2:#D9FF4A;--lime-3:#ECFF9B;--ink:#111318;--muted:#666B62;--white:#fff;--line:rgba(17,19,24,.12);--soft:#F6FFE3;--dark:#111318}
+*{box-sizing:border-box}body{margin:0;font-family:Manrope,Arial,sans-serif;color:var(--ink);background:var(--lime);line-height:1.5}a{color:inherit;text-decoration:none}button{font:inherit}
+.wrap{max-width:1440px;margin:auto;padding:0 28px}.nav{height:72px;background:var(--lime);border-bottom:1px solid var(--line);display:flex;align-items:center;position:sticky;top:0;z-index:20}.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}.logo{font-size:25px;font-weight:800;letter-spacing:-.04em}.nav-links{display:flex;gap:38px;align-items:center}.nav-links a{font-size:13px;font-weight:700;padding:8px 13px;border-radius:999px}.nav-links a.active{background:var(--lime-3)}.wallet{background:var(--dark);color:#fff;padding:13px 20px;border-radius:999px;font-size:12px;font-weight:800}
+footer{background:var(--dark);color:#fff;padding:38px 0}.footer{display:flex;justify-content:space-between;align-items:end}.footer-logo{font-size:22px;font-weight:800}.footer small{color:#a7ada3;font-size:10px}.footer-links{display:flex;gap:24px;font-size:11px;font-weight:700}.accent{color:var(--lime)}
+.footer-bottom{display:flex;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}.footer-bottom small{color:#a7ada3;font-size:10px}
+@media(max-width:640px){.wrap{padding:0 16px}.nav{height:64px}.nav-links{display:none}.wallet{padding:11px 14px}.logo{font-size:21px}.footer{align-items:flex-start;gap:25px;flex-direction:column}.footer-bottom{flex-direction:column;gap:8px}}
+
+/* ===== NFT page ===== */
+.nft-main{max-width:1200px;margin:0 auto;padding:32px 28px 80px}
+.nft-hero{position:relative;overflow:hidden;border-radius:24px;background:#fff;border:1px solid var(--line);min-height:420px;box-shadow:0 8px 28px rgba(17,19,24,.06)}
+.nft-hero .hero-copy{position:relative;z-index:2;width:52%;padding:52px 36px 40px}
+.nft-hero .kicker{font-size:10px;letter-spacing:.24em;font-weight:800;color:#68705c}
+.nft-hero h1{font-size:clamp(40px,5vw,62px);line-height:.98;letter-spacing:-.06em;margin:16px 0 16px;max-width:560px}
+.nft-hero h1 em{font-style:normal;color:#6a8a00}
+.nft-hero p{font-size:15px;line-height:1.65;color:#646b62;max-width:520px;margin:0}
+.nft-hero-actions{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.nft-btn{display:inline-flex;align-items:center;gap:6px;padding:13px 22px;border-radius:999px;background:#06291c;color:#fff;font-size:11px;font-weight:800}
+.nft-btn.light{background:#fff;color:#111318;border:1px solid rgba(17,19,24,.18)}
+.nft-hero-note{margin-top:26px;font-size:9px;line-height:1.6;letter-spacing:.22em;color:#74806f;font-weight:800}
+.nft-hero .hero-art{position:absolute;inset:0 0 0 46%;background:#efffd6;overflow:hidden}
+.nft-hero .hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.72) 9%,rgba(255,255,255,0) 42%);pointer-events:none}
+.nft-hero .hero-art img{width:100%;height:100%;object-fit:cover;display:block}
+
+.nft-menu-head{margin-top:52px;display:flex;justify-content:space-between;align-items:end;gap:20px}
+.nft-menu-head .kicker{font-size:10px;letter-spacing:.23em;font-weight:800;color:#39402f}
+.nft-menu-head h2{font-size:34px;line-height:1;letter-spacing:-.05em;margin:8px 0 0}
+.nft-menu-head p{max-width:320px;color:#39402f;font-size:12px;line-height:1.6;margin:0}
+
+.nft-menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.nft-menu-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 24px 24px;min-height:220px;display:flex;flex-direction:column;transition:.18s}
+.nft-menu-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(17,19,24,.08)}
+.nft-menu-card .num{display:inline-flex;width:30px;height:30px;border-radius:9px;background:#e6ff9b;align-items:center;justify-content:center;font-size:10px;font-weight:900}
+.nft-menu-card strong{display:block;font-size:19px;letter-spacing:-.02em;margin-top:20px}
+.nft-menu-card span{display:block;color:var(--muted);font-size:12px;line-height:1.6;margin-top:8px;flex:1}
+.nft-menu-card .go{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:11px;font-weight:800;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:10px 16px;align-self:flex-start}
+.nft-menu-card .go em{font-style:normal}
+
+.nft-cta{margin-top:32px;min-height:150px;border-radius:20px;overflow:hidden;position:relative;background:#06291c;color:#fff;padding:32px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.nft-cta .kicker{font-size:9px;letter-spacing:.24em;color:#b9c7b7;font-weight:800}
+.nft-cta h3{font-size:26px;letter-spacing:-.04em;margin:8px 0 0}
+.nft-cta p{font-size:11px;color:#b9c7b7;margin:6px 0 0}
+.nft-cta a{position:relative;z-index:2;background:var(--lime);color:#071b12;padding:13px 20px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap}
+
+@media(max-width:900px){
+  .nft-main{padding:24px 20px 60px}
+  .nft-hero{min-height:520px}
+  .nft-hero .hero-copy{width:100%;padding:32px 24px 20px}
+  .nft-hero .hero-art{left:0;top:38%;opacity:.9}
+  .nft-hero .hero-art:after{background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.55) 18%,rgba(255,255,255,0) 48%)}
+  .nft-hero h1{font-size:42px}
+  .nft-menu-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nft-menu-head{display:block}
+  .nft-menu-head p{margin-top:8px}
+  .nft-cta{display:block;padding:24px}
+  .nft-cta a{display:inline-flex;margin-top:16px}
+}
+
+/* ===== NFT app (Summon / Craft / Collection panels) ===== */
+.nft-back{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#39402f;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;margin-bottom:20px}
+.nft-tabs{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px;margin:0 auto 24px;width:fit-content}
+.nft-tab{padding:11px 20px;border-radius:999px;font-size:12px;font-weight:800;color:#666B62}
+.nft-tab.active{background:var(--dark);color:#fff}
+.nft-panel{display:none}
+.nft-panel.active{display:block}
+.nft-panel-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:60px 40px;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 28px rgba(17,19,24,.06)}
+.nft-panel-card .tag{font-size:9px;letter-spacing:.22em;font-weight:800;color:#6a8a00;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:8px 16px}
+.nft-panel-card h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.05em;margin:20px 0 10px}
+.nft-panel-card p{max-width:420px;color:var(--muted);font-size:13px;line-height:1.65;margin:0}
+@media(max-width:640px){
+  .nft-tabs{width:100%;overflow-x:auto}
+  .nft-panel-card{padding:44px 22px}
+}
+</style>
+</head><body>
+<header class="nav"><div class="wrap nav-inner"><div class="logo">AXIVERSE</div><nav class="nav-links"><a href="index.html">Home</a><a class="active" href="nft.html">NFT</a><a href="stake.html">Stake</a><a href="docs.html">Docs</a></nav><a class="wallet" href="#">CONNECT WALLET</a></div></header>
+
+<main class="nft-main">
+
+  <div id="view-home">
+    <section class="nft-hero">
+      <div class="hero-copy">
+        <div class="kicker">NFT ECOSYSTEM</div>
+        <h1>Collect. Craft.<br><em>Evolve.</em></h1>
+        <p>Summon new creatures, craft them into stronger NFTs, and build your Axiverse collection.</p>
+        <div class="nft-hero-actions">
+          <a class="nft-btn" href="#summon">Go to Summon &nbsp;→</a>
+          <a class="nft-btn light" href="#collection">View Collection</a>
+        </div>
+        <div class="nft-hero-note">SMALL CREATURES.<br>BIG TOMORROW.</div>
+      </div>
+      <div class="hero-art"><img src="assets/home/placeholderaxi.jpg" alt="Axiverse creature"></div>
+    </section>
+
+    <div class="nft-menu-head">
+      <div>
+        <div class="kicker">EXPLORE NFT</div>
+        <h2>Everything Starts Here.</h2>
+      </div>
+      <p>Summon your first creature, craft it into something stronger, then manage your whole collection.</p>
+    </div>
+
+    <div class="nft-menu-grid">
+      <a class="nft-menu-card" href="#summon">
+        <i class="num">01</i>
+        <strong>Summon</strong>
+        <span>Use AXI to summon a brand new Axiverse creature into your collection.</span>
+        <span class="go">Go to Summon <em>→</em></span>
+      </a>
+      <a class="nft-menu-card" href="#craft">
+        <i class="num">02</i>
+        <strong>Craft</strong>
+        <span>Combine two NFTs of the same level to create one stronger, higher-level NFT.</span>
+        <span class="go">Go to Craft <em>→</em></span>
+      </a>
+      <a class="nft-menu-card" href="#collection">
+        <i class="num">03</i>
+        <strong>Collection</strong>
+        <span>View, manage, and explore every NFT you own across all rarities and levels.</span>
+        <span class="go">View Collection <em>→</em></span>
+      </a>
+    </div>
+
+    <div class="nft-cta">
+      <div>
+        <div class="kicker">READY WHEN YOU ARE</div>
+        <h3>Your Next Creature Awaits.</h3>
+        <p>Summon, craft, and see what the Axiverse has in store for you.</p>
+      </div>
+      <a href="#summon">Start Summoning →</a>
+    </div>
+  </div>
+
+  <div id="view-app" style="display:none">
+    <a class="nft-back" href="#">← Back to NFT Home</a>
+    <div class="nft-tabs">
+      <a class="nft-tab" data-tab="summon" href="#summon">Summon</a>
+      <a class="nft-tab" data-tab="craft" href="#craft">Craft</a>
+      <a class="nft-tab" data-tab="collection" href="#collection">Collection</a>
+    </div>
+
+    <section class="nft-panel" data-panel="summon">
+      <div class="nft-panel-card">
+        <span class="tag">SUMMON</span>
+        <h2>Summon — Coming Soon</h2>
+        <p>Summon a brand new Axiverse creature using AXI. This feature is still in development — check back soon.</p>
+      </div>
+    </section>
+
+    <section class="nft-panel" data-panel="craft">
+      <div class="nft-panel-card">
+        <span class="tag">CRAFT</span>
+        <h2>Craft — Coming Soon</h2>
+        <p>Combine two NFTs of the same level into one stronger, higher-level creature. This feature is still in development — check back soon.</p>
+      </div>
+    </section>
+
+    <section class="nft-panel" data-panel="collection">
+      <div class="nft-panel-card">
+        <span class="tag">COLLECTION</span>
+        <h2>Collection — Coming Soon</h2>
+        <p>View, manage, and explore every NFT you own across all rarities and levels. This feature is still in development — check back soon.</p>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap footer">
+    <div>
+      <div>
+        <div class="footer-logo">AXIVERSE</div>
+        <small>A LIVING NFT ECOSYSTEM.</small>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a><a href="nft.html">NFT</a><a href="stake.html">Stake</a><a href="docs.html">Docs</a><a class="accent" href="https://x.com/axiverseRH" target="_blank" rel="noopener">X</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <small>© 2026 Axiverse. All rights reserved.</small>
+    <small class="footer-tagline">Built by the Community. For a Brighter Tomorrow.</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var PAGES = ['summon','craft','collection'];
+  var viewHome = document.getElementById('view-home');
+  var viewApp = document.getElementById('view-app');
+  var tabs = document.querySelectorAll('.nft-tab');
+  var panels = document.querySelectorAll('.nft-panel');
+
+  function route(){
+    var hash = (location.hash || '').replace('#','');
+    if (PAGES.indexOf(hash) === -1){
+      viewHome.style.display = '';
+      viewApp.style.display = 'none';
+      return;
+    }
+    viewHome.style.display = 'none';
+    viewApp.style.display = '';
+    tabs.forEach(function(t){ t.classList.toggle('active', t.dataset.tab === hash); });
+    panels.forEach(function(p){ p.classList.toggle('active', p.dataset.panel === hash); });
+    window.scrollTo(0,0);
+  }
+
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body></html>
