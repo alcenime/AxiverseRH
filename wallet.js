@@ -1,7 +1,7 @@
 /*
  * AXIVERSE — Global Wallet Controller
  *
- * One file shared by index.html, profile.html, axi.html and stake.html.
+ * One file shared by index.html, docs.html, profile.html, axi.html and stake.html.
  *
  * Desktop / in-app browser:
  *   - EIP-6963 discovery for injected EVM wallets.
