@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Axiverse Wallet Debug</title>
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;padding:16px;background:#0c0f0a;color:#eee;margin:0}
+  h2{font-size:16px;margin:0 0 4px}
+  p.hint{font-size:12px;color:#9aa;margin:0 0 16px}
+  button{padding:16px 20px;font-size:15px;border-radius:12px;border:0;background:#c8ff00;color:#07120e;font-weight:800;margin-bottom:14px;display:block;width:100%;letter-spacing:.04em}
+  #log{white-space:pre-wrap;word-break:break-all;background:#000;color:#7fff7f;padding:12px;border-radius:10px;font-size:11.5px;min-height:260px;max-height:60vh;overflow:auto;border:1px solid #234}
+  .tag{color:#ffd166}
+</style>
+</head>
+<body>
+<h2>AXIVERSE — Wallet Debug</h2>
+<p class="hint">Tap tombol hijau di bawah, lalu tap bulatan mengambang (pojok layar) buat buka console penuh kalau perlu. Log ringkas juga tampil di kotak hitam.</p>
+
+<button class="site-wallet" type="button">CONNECT WALLET</button>
+<div id="walletArea"></div>
+
+<div id="log">Menunggu...\n</div>
+
+<script>
+  const logEl = document.getElementById('log');
+  function log(...args){
+    const line = args.map(a => {
+      if (a instanceof Error) return a.message;
+      if (typeof a === 'object') { try { return JSON.stringify(a); } catch(e){ return String(a); } }
+      return String(a);
+    }).join(' ');
+    logEl.textContent += line + '\n';
+    logEl.scrollTop = logEl.scrollHeight;
+    console.log(...args);
+  }
+
+  window.addEventListener('error', function (e) {
+    log('[JS ERROR]', e.message, 'di', (e.filename || '?').split('/').pop() + ':' + e.lineno);
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    log('[PROMISE ERROR]', e.reason && e.reason.message ? e.reason.message : e.reason);
+  });
+
+  log('window.ethereum ada?', !!window.ethereum);
+  log('window.okxwallet ada?', !!window.okxwallet);
+
+  window.addEventListener('eip6963:announceProvider', function (e) {
+    log('[EIP-6963] provider terdeteksi:', e.detail.info.name, '/', e.detail.info.rdns);
+  });
+  window.dispatchEvent(new Event('eip6963:requestProvider'));
+  setTimeout(function(){ log('(EIP-6963 request sudah dikirim, tunggu balasan wallet)'); }, 50);
+
+  window.addEventListener('axiverse:wallet', function (e) {
+    log('[wallet event]', e.detail.type, e.detail.data);
+  });
+</script>
+
+<script
+  src="https://alcenime.github.io/AxiverseRH/wallet.js"
+  onload="log('wallet.js berhasil di-load dari GitHub Pages')"
+  onerror="log('[GAGAL] wallet.js TIDAK bisa di-load — cek nama file/path di repo')"
+></script>
+
+<script>
+  setTimeout(function () {
+    log('window.AxiverseWallet ada?', !!window.AxiverseWallet);
+    const btn = document.querySelector('.site-wallet');
+    log('.site-wallet ke-bind?', !!(btn && btn.__axiverseWalletBound));
+  }, 800);
+</script>
+</body>
+</html>
