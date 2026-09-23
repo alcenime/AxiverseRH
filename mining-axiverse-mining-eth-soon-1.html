@@ -1,0 +1,1567 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>AXIVERSE — Mining</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{--lime:#C8FF00;--ink:#111318;--muted:#666B62;--soft:#F6FFE3;--dark:#111318}
+*{box-sizing:border-box}body{margin:0;--line:rgba(17,19,24,.12)}
+*{box-sizing:border-box}body{margin:0;background:var(--lime);color:var(--ink);font-family:Manrope,Arial,sans-serif}a{color:inherit;text-decoration:none}button{font:inherit}
+/* === AXIVERSE shared nav/footer (matches index.html) === */
+.site-nav{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 42px;max-width:1280px;margin:auto;background:#c8ff00;position:relative;z-index:50;font-family:Inter,Arial,sans-serif}
+.site-nav .brand{font-size:27px;font-weight:900;letter-spacing:-1.5px;color:#071b12}
+.site-links{display:flex;gap:6px;font-size:13px;font-weight:700;align-items:center}
+.site-links a{color:#071b12;padding:9px 14px;border-radius:999px;transition:background-color .15s ease,box-shadow .15s ease}
+.site-links a:hover{background:rgba(7,27,18,.08)}
+.site-links a.active{background:#fff;font-weight:800;box-shadow:0 1px 3px rgba(17,19,24,.12)}
+.nav-dropdown{position:relative}
+.nav-drop-toggle{background:none;border:0;font:inherit;font-weight:700;font-size:13px;color:#071b12;padding:8px 0;cursor:pointer;display:flex;align-items:center;gap:4px}
+.nav-drop-toggle .caret{font-size:9px;transition:.15s}
+.nav-dropdown.open .nav-drop-toggle .caret{transform:rotate(180deg)}
+.nav-drop-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);align-items:center;gap:10px;white-space:nowrap;z-index:60}
+.nav-drop-menu a{font-size:13px;font-weight:700;color:#071b12}
+.nav-drop-menu a:hover{opacity:.65}
+.nav-drop-menu .sep{color:#071b12;opacity:.35;font-weight:700}
+.nav-dropdown.open .nav-drop-menu{display:flex}
+.site-wallet{background:#fff;border:1px solid rgba(0,0,0,.18);border-radius:30px;padding:13px 22px;font-weight:800;font-size:11px;box-shadow:0 3px 0 rgba(0,0,0,.08);color:#071b12}
+.mobile-wallet,.menu-toggle{display:none}
+@media(max-width:800px){
+  .site-nav{height:64px;padding:0 20px}.site-nav .brand{font-size:21px}
+  .site-links{display:none;position:absolute;left:50%;transform:translateX(-50%);top:58px;width:calc(100vw - 40px);flex-direction:column;gap:4px;padding:10px;background:#f8fff0;border:1px solid rgba(0,0,0,.08);border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.14)}
+  .site-links.open{display:flex}.site-links a{width:100%;padding:12px 14px;border-radius:10px;text-align:center}.site-links a.active{background:#fff}
+  .mobile-wallet{display:block!important;background:#c8ff00!important;border:1px solid rgba(0,0,0,.18);margin:7px 7px 5px;font-weight:800}
+  .site-wallet{display:none}.menu-toggle{display:block;background:#fff;border:0;border-radius:12px;width:42px;height:42px;font-size:22px}
+  .nav-dropdown{width:100%}
+  .nav-drop-toggle{width:100%;justify-content:center;padding:12px 14px;border-radius:10px}
+  .nav-drop-menu{position:static;transform:none;display:none;width:100%;justify-content:center;padding:6px 0 2px}
+  .nav-dropdown.open .nav-drop-menu{display:flex}
+}
+.site-footer{margin-top:24px;background:#06291c;color:#fff;border-radius:28px;padding:34px 42px 25px;font-family:Inter,Arial,sans-serif}
+.site-footer .foot-top{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.site-footer .brand{color:#fff}
+.foot-tag{color:#b5c9be;font-size:10px;letter-spacing:2px;margin-top:5px}
+.foot-links{display:flex;gap:25px;font-size:11px;font-weight:700}
+.foot-links a{color:#fff}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:24px;padding-top:18px;display:flex;justify-content:space-between;color:#b5c9be;font-size:10px}
+@media(max-width:800px){
+  .site-footer{border-radius:22px;padding:28px 22px}.site-footer .foot-top,.foot-bottom{display:block}
+  .foot-links{margin-top:18px;gap:18px;flex-wrap:wrap}.foot-bottom>*+*{margin-top:10px}
+}
+.page-head{max-width:1372px;margin:auto;padding:26px 34px 4px}
+@media(max-width:760px){.page-head{padding:20px 16px 2px}}
+.axi-tabs-wrap{display:flex;justify-content:center}
+.axi-tabs{display:inline-flex;align-items:center;gap:2px;background:rgba(17,19,24,.06);border-radius:999px;padding:4px}
+.axi-tab{border:0;background:none;padding:9px 20px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--muted);cursor:pointer;border-radius:999px;transition:color .15s ease,background-color .15s ease,box-shadow .15s ease}
+.axi-tab:hover{color:var(--ink)}
+.axi-tab.active{color:var(--ink);font-weight:800;background:#fff;box-shadow:0 1px 3px rgba(17,19,24,.12)}
+@media(max-width:760px){.axi-tab{font-size:12px;padding:8px 16px}}
+.axi-view{display:none}
+.axi-view.active{display:block}
+.main{max-width:1372px;margin:auto;padding:20px 34px 70px}
+.collection-placeholder{border:1px dashed rgba(17,19,24,.22);background:var(--soft);border-radius:20px;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-top:18px;text-align:center;padding:40px 20px}
+.collection-placeholder b{font-size:15px}
+.collection-placeholder span{font-size:11px;color:var(--muted);max-width:420px}
+@media(max-width:760px){.main{padding-left:16px;padding-right:16px}}
+/* === Mining tab (prefix stk-) === */
+.stk-stage,.stk-modal{--g0:#06291c;--g1:#0b3a29;--g2:#124a35;--edge:rgba(200,255,0,.16);--mute:#b5c9be;--dim:#8fa89b}
+.stk-stage{background:var(--g0);color:#fff;border-radius:32px;padding:34px;margin-top:18px}
+.stk-stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px 24px;flex-wrap:wrap}
+.stk-stage-head h2{margin:0;font-size:24px;font-weight:800;letter-spacing:-.6px}
+.stk-stage-head p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--mute);font-weight:500;max-width:520px}
+.stk-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--edge);background:rgba(255,255,255,.04);color:#fff;border-radius:999px;padding:10px 16px;font:inherit;font-size:12px;font-weight:700;white-space:nowrap}
+.stk-chip-btn{background:var(--lime);color:var(--ink);border-color:var(--lime);cursor:pointer}
+.stk-chip-warn{background:#ffd166;color:var(--ink);border-color:#ffd166;cursor:pointer}
+.stk-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);display:inline-block}
+.stk-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)}
+.stk-stat{padding:22px 24px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stk-stat:first-child{padding-left:0}
+.stk-stat+.stk-stat{border-left:1px solid rgba(255,255,255,.1)}
+.stk-label{font-size:12px;font-weight:600;color:var(--mute)}
+.stk-stat b{font-size:34px;font-weight:800;letter-spacing:-1.2px;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stk-stat-live b{color:var(--lime)}
+.stk-stat small{font-size:11px;color:var(--dim);font-weight:600;min-height:14px}
+.stk-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.stk-slot-locked-static{position:relative;background:linear-gradient(180deg,#0b3a29 0%,#082f22 100%);border:1px solid rgba(200,255,0,.13);border-radius:26px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.stk-lock-art{width:100%;aspect-ratio:1/1;border-radius:18px;background:rgba(0,0,0,.16);border:1px dashed rgba(200,255,0,.2);display:grid;place-items:center;color:var(--dim)}
+.stk-lock-art svg{width:58px;height:58px;fill:none;stroke:currentColor;stroke-width:1.8}
+.stk-locked-copy{display:flex;flex-direction:column;gap:5px;min-height:64px}.stk-locked-copy b{font-size:16px}.stk-locked-copy span{font-size:12px;color:var(--mute);font-weight:600}
+.stk-upgrade-slot{width:100%;border:0;background:var(--lime);color:var(--ink);font:inherit;font-size:13px;font-weight:800;padding:14px 18px;border-radius:999px;cursor:pointer}.stk-upgrade-slot:hover{background:#d8ff3d}
+.stk-slot{background:var(--g1);border:1px solid var(--edge);border-radius:26px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.stk-slot-locked{border-color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime)}
+.stk-slot-top{display:flex;justify-content:space-between;align-items:center;min-height:26px;font-size:12px;font-weight:700;color:var(--mute)}
+.stk-tag{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px;font-weight:800;color:#fff}
+.stk-slot-locked .stk-tag{background:var(--lime);color:var(--ink)}
+.stk-remove{border:0;background:none;color:var(--mute);font:inherit;font-size:12px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:999px;text-decoration:underline;text-underline-offset:3px}
+.stk-remove:hover{color:#fff}
+.stk-art{position:relative;width:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;background:var(--g2);display:block}
+.stk-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.stk-ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--dim);font-weight:800;font-size:18px}
+.stk-img-broken{visibility:hidden}
+.stk-add{width:100%;aspect-ratio:1/1;border-radius:18px;border:1.5px dashed rgba(200,255,0,.4);background:transparent;color:var(--lime);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font:inherit;transition:background-color .15s ease,border-color .15s ease}
+.stk-add:hover{background:rgba(200,255,0,.08);border-color:var(--lime)}
+.stk-plus{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--lime);display:grid;place-items:center;font-size:30px;font-weight:500;line-height:1;transition:background-color .15s ease,color .15s ease}
+.stk-add:hover .stk-plus{background:var(--lime);color:var(--g0)}
+.stk-add-text{font-size:13px;font-weight:700;color:#fff}
+.stk-info{display:flex;flex-direction:column;gap:6px;min-height:64px;min-width:0}
+.stk-name{font-size:16px;font-weight:800;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stk-name.stk-muted{color:var(--dim)}
+.stk-sub{font-size:12px;color:var(--mute);font-weight:600;font-variant-numeric:tabular-nums}
+.stk-row{display:flex;justify-content:space-between;gap:8px}
+.stk-slot-pts{color:var(--lime);font-weight:800}
+.stk-bar{height:6px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden}
+.stk-bar i{display:block;height:100%;width:0;background:var(--lime);border-radius:999px;transition:width 1s linear}
+.stk-btn{display:inline-block;text-align:center;border:0;background:var(--lime);color:var(--ink);font:inherit;font-weight:800;font-size:14px;padding:14px 26px;border-radius:999px;cursor:pointer;transition:background-color .15s ease}
+.stk-btn:hover:not(:disabled){background:#d8ff3d}
+.stk-btn:disabled{background:rgba(255,255,255,.08);color:var(--dim);cursor:not-allowed}
+.stk-slot>.stk-btn{width:100%}
+.stk-btn-ghost{background:rgba(255,255,255,.1);color:#fff}
+.stk-btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.18)}
+.stk-btn:focus-visible,.stk-add:focus-visible,.stk-pick:focus-visible,.stk-remove:focus-visible,.stk-chip-btn:focus-visible,.stk-chip-warn:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.stk-panel{background:#fff;border:1px solid var(--line);border-radius:28px;padding:26px;margin-top:14px}
+.stk-panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;margin-bottom:14px}
+.stk-panel-head h2{margin:0;font-size:18px;font-weight:800;letter-spacing:-.3px}
+.stk-table-wrap{overflow-x:auto}
+.stk-table{width:100%;border-collapse:collapse;font-size:13px}
+.stk-table th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:0 12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.stk-table td{padding:13px 12px;border-bottom:1px solid var(--line);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.stk-table tr:last-child td{border-bottom:0}
+.stk-table .r{text-align:right}
+.stk-pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.stk-pill.start{background:var(--soft)}
+.stk-pill.done{background:var(--ink);color:var(--lime)}
+.stk-empty{padding:34px 12px;text-align:center;color:var(--muted);font-size:13px;font-weight:600}
+.stk-modal{position:fixed;inset:0;z-index:100;background:rgba(3,20,13,.72);display:flex;align-items:center;justify-content:center;padding:16px;animation:stkFade .15s ease}
+.stk-modal[hidden]{display:none}
+@keyframes stkFade{from{opacity:0}to{opacity:1}}
+.stk-dialog{background:var(--g0);color:#fff;border:1px solid var(--edge);border-radius:28px;padding:28px;width:100%;max-width:580px;max-height:85vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.4);outline:0}
+.stk-dialog h3{margin:0 0 6px;font-size:21px;font-weight:800;letter-spacing:-.5px}
+.stk-dialog p{margin:0 0 18px;font-size:13px;color:var(--mute);font-weight:500;line-height:1.55}
+.stk-msg{padding:6px 0 2px}
+.stk-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.stk-pick{border:1px solid var(--edge);background:var(--g1);border-radius:18px;padding:8px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;gap:8px;font:inherit;color:#fff;text-align:left;min-width:0;transition:border-color .15s ease}
+.stk-pick:hover:not(:disabled){border-color:var(--lime)}
+.stk-pick:disabled{opacity:.5;cursor:not-allowed}
+.stk-pick .stk-art{border-radius:12px}
+.stk-pick-name{font-size:12px;font-weight:800;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stk-taken{font-size:11px;font-weight:700;color:var(--dim);padding:0 4px;margin-top:-4px}
+.stk-dialog p.stk-note{color:#fff;font-weight:700;font-size:14px}
+.stk-skel{aspect-ratio:1/1.2;border-radius:18px;background:var(--g1);border:1px solid var(--edge)}
+.stk-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;margin-top:22px}
+/* === Epoch tab (prefix epc-) === */
+.epc{--e-inner:#022317;--e-cut:#03261a;--e-mute:#c3d3c8;--e-dim:#93ab9d;--e-lime:#c8ff00;--e-edge:rgba(120,255,60,.34);--ms:1}
+.epc-sprite{position:absolute;width:0;height:0;overflow:hidden}
+.epc-ic{width:28px;height:28px;fill:currentColor;flex:none;display:block}
+.epc-hero,.epc-panel{position:relative;color:#fff;background:radial-gradient(90% 120% at 100% 0%,#0a3826 0%,#052c1c 42%,#032217 100%);border:1px solid rgba(170,255,70,.3);box-shadow:inset 0 0 42px rgba(120,255,60,.09)}
+.epc-hero{margin-top:18px;padding:30px 36px 34px;border-radius:32px}
+.epc-panel{margin-top:16px;padding:26px 30px;border-radius:28px}
+.epc-head{display:flex;align-items:center;gap:16px;color:var(--e-lime);min-height:40px}
+.epc-head h2{margin:0;color:#fff;font-size:30px;font-weight:800;letter-spacing:.01em;line-height:1}
+.epc-ic-diamond{width:30px;height:30px}
+.epc-sub{position:relative;z-index:2;margin:10px 0 0;font-size:16px;line-height:1.5;color:#d3e1d6;font-weight:500;max-width:470px}
+.epc-mascot{position:absolute;top:calc(-35px*var(--ms));right:18px;width:calc(380px*var(--ms));height:auto;z-index:1;pointer-events:none;mix-blend-mode:lighten;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 24%),linear-gradient(to top,transparent 0,#000 26%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 24%),linear-gradient(to top,transparent 0,#000 26%);mask-composite:intersect}
+.epc-duo{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.43fr) minmax(0,1fr);gap:0 4px;margin-top:22px;align-items:stretch}
+.epc-card{position:relative;background:linear-gradient(180deg,#02261a 0%,#012016 100%);border:1px solid var(--e-edge);border-radius:28px;box-shadow:inset 0 0 26px rgba(110,255,60,.1),0 0 24px rgba(110,255,60,.08)}
+.epc-current{padding:24px 30px 26px}
+.epc-card-title{font-size:22px;font-weight:700;color:#cbdacf;letter-spacing:-.2px}
+.epc-numrow{display:flex;align-items:center;gap:18px;margin-top:6px;flex-wrap:wrap}
+.epc-num{font-size:62px;font-weight:800;letter-spacing:-2px;line-height:1.05;font-variant-numeric:tabular-nums}
+.epc-live{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 20px;border-radius:999px;background:rgba(200,255,0,.1);border:1px solid rgba(200,255,0,.22);color:var(--e-lime);font-size:18px;font-weight:800}
+.epc-daterow{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:15px;font-weight:600;color:#e6efe8;flex-wrap:wrap}
+.epc-daterow .epc-ic{width:20px;height:20px;fill:none;stroke:none;color:#e6efe8}
+.epc-daterow .epc-ic path,.epc-daterow .epc-ic rect{stroke:currentColor}
+.epc-daterow .epc-ic circle{fill:currentColor}
+.epc-days{margin-left:6px;padding:8px 13px;border:1px solid rgba(255,255,255,.55);border-radius:8px;font-size:14px;font-weight:700;white-space:nowrap}
+.epc-progress{display:flex;align-items:center;gap:18px;margin-top:20px}
+.epc-track{flex:1;min-width:0;height:32px;padding:3px;border-radius:999px;background:#012016;border:2px solid rgba(120,255,60,.32);box-shadow:inset 0 0 12px rgba(0,0,0,.4)}
+.epc-track i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#b4ff4a,#c8ff00);box-shadow:0 0 14px rgba(200,255,0,.45);transition:width 1s linear}
+.epc-left{display:flex;flex-direction:column;gap:2px;min-width:104px}
+.epc-left b{font-size:19px;font-weight:800;color:var(--e-lime);white-space:nowrap;font-variant-numeric:tabular-nums}
+.epc-left span{font-size:14px;color:var(--e-mute);font-weight:500}
+.epc-pool{margin-top:45px;padding:24px 28px 26px;border-radius:28px;background:linear-gradient(180deg,#022418 0%,#012016 100%);overflow:hidden}
+.epc-pool-title{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:800;letter-spacing:-.3px}
+.epc-help{width:24px;height:24px;padding:0;border:0;background:none;color:#e6efe8;cursor:help;border-radius:50%;display:grid;place-items:center}
+.epc-help svg{width:24px;height:24px;fill:none}
+.epc-pool-num{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap;position:relative;z-index:1}
+.epc-usd{width:48px;height:48px;border-radius:50%;flex:none;display:block;object-fit:cover;box-shadow:0 0 0 3px #fff,0 0 20px rgba(98,126,234,.35)}
+.epc-pool-num b{font-size:48px;font-weight:800;letter-spacing:-1.5px;line-height:1;font-variant-numeric:tabular-nums}
+.epc-cur{font-size:26px;font-weight:800;color:var(--e-lime)}
+.epc-pool p{position:relative;z-index:1;margin:22px 0 0;font-size:14.5px;color:#d3e1d6;font-weight:500;max-width:60%}
+.epc-coins{position:absolute;right:14px;bottom:12px;width:104px;height:auto;mix-blend-mode:lighten;pointer-events:none;-webkit-mask-image:radial-gradient(closest-side,#000 82%,transparent);mask-image:radial-gradient(closest-side,#000 82%,transparent)}
+.epc-kpis{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);margin-top:26px;background:var(--e-inner);border:1px solid var(--e-edge);border-radius:24px;box-shadow:inset 0 0 26px rgba(110,255,60,.09)}
+.epc-kpi{display:flex;align-items:center;gap:18px;padding:22px 26px;min-width:0}
+.epc-kpi+.epc-kpi{border-left:1px solid rgba(255,255,255,.1)}
+.epc-kpi .epc-ic{width:38px;height:38px;color:var(--e-lime)}
+.epc-kpi-t{display:flex;flex-direction:column;gap:3px;min-width:0}
+.epc-kpi-t span{font-size:15px;font-weight:600;color:#dbe7de}
+.epc-kpi-t b{font-size:32px;font-weight:800;letter-spacing:-.8px;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.epc-kpi-t small{font-size:13px;color:var(--e-dim);font-weight:500}
+.epc-kpi-lime b{color:var(--e-lime)}
+.epc-reward{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(240px,300px);gap:0 24px;align-items:center;padding:24px 30px 26px}
+.epc-reward-head{display:flex;align-items:center;gap:18px}
+.epc-reward-head .epc-ic{width:46px;height:46px;color:var(--e-lime)}
+.epc-reward-head h3,.epc-lb-head h3,.epc-hist-head h3{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.2}
+.epc-reward-head p{margin:4px 0 0;font-size:15px;color:#d3e1d6;font-weight:500}
+.epc-reward-box{display:flex;flex-wrap:wrap;gap:16px 56px;align-items:center;margin-top:16px;padding:16px 22px;background:var(--e-inner);border:1px solid rgba(190,255,70,.16);border-radius:18px}
+.epc-rw-item{display:flex;align-items:center;gap:18px;min-width:0}
+.epc-rw-ic{width:56px;height:56px;border-radius:16px;flex:none;display:grid;place-items:center;background:rgba(255,255,255,.05);color:#ffd23f;box-shadow:0 0 22px rgba(255,210,63,.18) inset}
+.epc-rw-ic .epc-ic{width:30px;height:30px}
+.epc-rw-t{display:flex;flex-direction:column;gap:4px}
+.epc-rw-t span{font-size:14px;font-weight:600;color:#dbe7de}
+.epc-rw-t b{font-size:30px;font-weight:800;letter-spacing:-.6px;line-height:1.1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.epc-rw-t b i{font-style:normal;font-size:22px;color:var(--e-mute);margin-left:10px;letter-spacing:0}
+.epc-rw-t .epc-lime{color:var(--e-lime)}
+.epc-divider{align-self:stretch;background:rgba(255,255,255,.1);min-height:100px}
+.epc-claim{display:flex;flex-direction:column;gap:14px}
+.epc-claim-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;height:62px;border:0;border-radius:18px;background:#4a6355;color:rgba(255,255,255,.4);font:inherit;font-size:17px;font-weight:800;letter-spacing:.06em;cursor:not-allowed}
+.epc-claim-btn .epc-ic{width:22px;height:22px}
+.epc-claim-note{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#d3e1d6;font-weight:500}
+.epc-claim-note .epc-ic{width:20px;height:20px;fill:currentColor;color:var(--e-mute)}
+.epc-lb-head,.epc-hist-head{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap}
+.epc-lb-head h3,.epc-hist-head h3{display:flex;align-items:center;gap:14px}
+.epc-lb-head .epc-ic{width:30px;height:30px;color:var(--e-lime)}
+.epc-link{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:6px 2px;color:var(--e-lime);font:inherit;font-size:14px;font-weight:700;cursor:pointer;border-radius:8px}
+.epc-link svg{width:16px;height:16px;fill:none}
+.epc-link:hover{text-decoration:underline;text-underline-offset:4px}
+.epc-lb{padding:24px 30px 28px}
+.epc-lb-list{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:18px 0 0;padding:0;list-style:none}
+.epc-lb-item{display:flex;align-items:center;gap:12px;padding:16px 16px;min-width:0;background:linear-gradient(180deg,#062d1c,#04261a);border:1px solid rgba(190,255,70,.16);border-radius:18px}
+.epc-lb-badge{width:48px;flex:none;display:grid;place-items:center;font-size:17px;font-weight:800}
+.epc-lb-badge .epc-ic{width:30px;height:30px}
+.epc-lb-main{display:flex;flex-direction:column;gap:6px;min-width:0}
+.epc-lb-rank{font-size:17px;font-weight:800;line-height:1}
+.epc-lb-who{display:flex;align-items:center;gap:10px}
+.epc-lb-who img{width:38px;height:38px;border-radius:50%;flex:none;display:block}
+.epc-lb-pts{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.epc-lb-pts b{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.epc-lb-pts small{font-size:12.5px;color:var(--e-mute);font-weight:500}
+.epc-gold{color:#ffd23f}.epc-silver{color:#d5dcdf}.epc-bronze{color:#f2a05e}.epc-white{color:#fff}
+.epc-hist{margin-top:16px;padding:22px 22px 14px;background:#fff;border:1px solid var(--line);border-radius:28px;color:var(--ink)}
+.epc-hist-head{margin-bottom:14px}
+.epc-hist-head .epc-ic{width:30px;height:30px;color:var(--ink)}
+.epc-table-wrap{overflow-x:auto}
+.epc-table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;min-width:640px}
+.epc-table th{background:#f0f3ef;color:#2f3733;text-align:left;font-size:13.5px;font-weight:700;padding:13px 24px;white-space:nowrap}
+.epc-table th:first-child{border-radius:12px 0 0 12px}.epc-table th:last-child{border-radius:0 12px 12px 0}
+.epc-table td{padding:16px 24px;border-bottom:1px solid var(--line);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.epc-table tr:last-child td{border-bottom:0}
+.epc-pill{display:inline-block;min-width:64px;text-align:center;padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:700}
+.epc-pill-live{background:#d6f7a3;color:#1c3a0a}
+.epc-pill-end{background:#eceeed;color:#2f3733}
+.epc-empty-row td{text-align:center;color:var(--muted);font-weight:600;padding:26px 24px}
+@media(max-width:1100px){.epc{--ms:.85}.epc-num{font-size:54px}}
+@media(max-width:900px){
+  .epc-hero{padding:26px 20px 24px;border-radius:26px}
+  .epc-mascot{position:relative;top:auto;right:auto;display:block;margin:4px auto -46px;width:min(300px,78%);--ms:1}
+  .epc-sub{max-width:none}
+  .epc-duo{grid-template-columns:1fr;gap:14px;margin-top:18px}
+  .epc-pool{margin-top:0}
+  .epc-kpis{grid-template-columns:repeat(2,1fr)}
+  .epc-kpi:nth-child(3){border-left:0}.epc-kpi:nth-child(n+3){border-top:1px solid rgba(255,255,255,.1)}
+  .epc-reward{grid-template-columns:1fr;gap:18px}
+  .epc-divider{display:none}
+  .epc-lb-list{grid-template-columns:repeat(2,1fr)}
+  .epc-lb-item:last-child{grid-column:1/-1}
+}
+@media(max-width:560px){
+  .epc-current{padding:20px 18px 22px}.epc-pool{padding:20px 18px 22px}
+  .epc-num{font-size:46px}.epc-live{height:40px;font-size:16px}
+  .epc-progress{flex-wrap:wrap;gap:10px}.epc-left{flex-direction:row;align-items:baseline;gap:8px}
+  .epc-pool-num b{font-size:40px}.epc-pool p{max-width:58%}
+  .epc-kpi{padding:16px 14px;gap:12px}.epc-kpi .epc-ic{width:28px;height:28px}.epc-kpi-t b{font-size:24px}
+  .epc-panel,.epc-lb,.epc-reward{padding:20px 18px}.epc-hist{padding:18px 14px 8px}
+  .epc-reward-box{gap:16px 28px;padding:14px 16px}
+  .epc-rw-t b{font-size:26px}
+  .epc-lb-list{grid-template-columns:1fr}
+  .epc-head h2{font-size:26px}
+}
+@media(prefers-reduced-motion:reduce){.epc-track i{transition:none}}
+@media(max-width:760px){
+  .stk-stage{padding:22px 16px;border-radius:26px}
+  .stk-stats{grid-template-columns:repeat(2,1fr)}
+  .stk-stat,.stk-stat:first-child{padding:16px 14px}
+  .stk-stat:nth-child(odd){padding-left:0}
+  .stk-stat:nth-child(3){border-left:0}
+  .stk-stat:nth-child(n+3){border-top:1px solid rgba(255,255,255,.1)}
+  .stk-stat b{font-size:26px}
+  .stk-slots{grid-template-columns:1fr}
+  .stk-slot{display:grid;grid-template-columns:96px 1fr;grid-template-areas:"top top" "art info" "btn btn";gap:10px 14px;padding:14px}
+  .stk-slot-top{grid-area:top}
+  .stk-slot>.stk-art,.stk-slot>.stk-add{grid-area:art;width:96px}
+  .stk-slot>.stk-info{grid-area:info;align-self:center;min-height:0}
+  .stk-slot>.stk-btn{grid-area:btn}
+  .stk-slot-locked-static{display:grid;grid-template-columns:96px 1fr;grid-template-areas:"lock top" "lock copy" "btn btn";gap:10px 14px;padding:14px}
+  .stk-slot-locked-static .stk-slot-top{grid-area:top}.stk-slot-locked-static .stk-lock-art{grid-area:lock;width:96px}.stk-slot-locked-static .stk-locked-copy{grid-area:copy;min-height:0;align-self:center}.stk-slot-locked-static .stk-upgrade-slot{grid-area:btn}
+  .stk-plus{width:40px;height:40px;font-size:24px}
+  .stk-add-text{display:none}
+  .stk-panel{padding:18px}
+  .stk-dialog{padding:22px}
+}
+@media(prefers-reduced-motion:reduce){.stk-modal{animation:none}.stk-bar i{transition:none}}
+/* === Upgrade tab (prefix upg-) === */
+.upg-wrap,.upg-modal{--g0:#06291c;--g1:#0b3a29;--g2:#124a35;--edge:rgba(200,255,0,.16);--mute:#b5c9be;--dim:#8fa89b}
+.upg-wrap{background:var(--g0);color:#fff;border-radius:32px;padding:34px;margin-top:18px}
+.upg-grid{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
+.upg-pick-card{width:100%;aspect-ratio:1/1.05;border-radius:22px;border:1.5px dashed rgba(200,255,0,.4);background:transparent;color:var(--lime);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font:inherit;padding:16px;text-align:center;transition:background-color .15s ease,border-color .15s ease}
+.upg-pick-card:hover{background:rgba(200,255,0,.08);border-color:var(--lime)}
+.upg-pick-card:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.upg-pick-plus{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--lime);display:grid;place-items:center;font-size:30px;font-weight:500;line-height:1;flex:none}
+.upg-pick-text{font-size:14px;font-weight:800;color:#fff}
+.upg-pick-sub{font-size:12px;color:var(--mute);font-weight:600}
+.upg-selected{width:100%;border-radius:22px;background:var(--g1);border:1px solid var(--edge);padding:14px;display:flex;flex-direction:column;gap:12px;text-align:left;cursor:pointer;font:inherit;color:#fff}
+.upg-selected:hover{border-color:var(--lime)}
+.upg-selected:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.upg-sel-art{position:relative;width:100%;aspect-ratio:1/1;border-radius:16px;overflow:hidden;background:var(--g2)}
+.upg-sel-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.upg-sel-ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--dim);font-weight:800;font-size:16px}
+.upg-sel-name{font-size:15px;font-weight:800;letter-spacing:-.2px}
+.upg-sel-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.upg-sel-change{font-size:11px;font-weight:700;color:var(--mute);text-decoration:underline;text-underline-offset:3px}
+.upg-panel{background:var(--g1);border:1px solid var(--edge);border-radius:24px;padding:26px;min-height:380px}
+.upg-empty{display:flex;align-items:center;justify-content:center;min-height:328px;color:var(--mute);font-size:14px;font-weight:600;text-align:center}
+.upg-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:-.4px}
+.upg-lvlrow{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.upg-lvl-badge{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);font-size:13px;font-weight:800}
+.upg-lvl-badge.target{background:var(--lime);color:var(--ink)}
+.upg-lvl-arrow{color:var(--mute)}
+.upg-track{display:flex;align-items:center;gap:6px;margin-top:20px}
+.upg-step{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:rgba(255,255,255,.08);color:var(--dim);flex:none}
+.upg-step.done{background:rgba(200,255,0,.18);color:var(--lime)}
+.upg-step.current{background:rgba(255,255,255,.16);color:#fff}
+.upg-step.target{background:var(--lime);color:var(--ink)}
+.upg-track-line{flex:1;height:2px;background:rgba(255,255,255,.1);min-width:8px}
+.upg-stats{margin-top:24px;border-top:1px solid rgba(255,255,255,.1)}
+.upg-stat-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.upg-stat-label{font-size:13px;color:var(--mute);font-weight:700}
+.upg-stat-val{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+.upg-stat-val .upg-arrow{color:var(--mute);margin:0 6px;font-weight:600}
+.upg-stat-val .to{color:var(--lime)}
+.upg-creature-stats{margin-top:24px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.upg-creature-stat{background:var(--g2);border:1px solid var(--edge);border-radius:16px;padding:13px 14px;min-width:0}
+.upg-creature-stat span{display:block;font-size:10px;color:var(--mute);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.upg-creature-stat b{display:block;margin-top:6px;font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upg-recharge{margin-top:14px;background:var(--g2);border:1px solid var(--edge);border-radius:18px;padding:16px 18px}
+.upg-recharge-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.upg-recharge-title{font-size:14px;font-weight:800}
+.upg-battery{height:7px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:11px}
+.upg-battery i{display:block;width:0;height:100%;background:var(--lime);border-radius:999px}
+.upg-recharge-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px}
+.upg-recharge-row span{font-size:11px;color:var(--mute);font-weight:600}
+.upg-recharge-btn{border:0;background:var(--lime);color:var(--ink);font:inherit;font-size:11px;font-weight:800;padding:9px 14px;border-radius:999px;cursor:pointer}
+.upg-recharge-btn:disabled{background:rgba(255,255,255,.08);color:var(--dim);cursor:not-allowed}
+@media(max-width:1000px){.upg-creature-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.upg-creature-stats{grid-template-columns:repeat(2,1fr)}}
+.upg-cost{margin-top:22px;background:var(--g2);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.upg-cost-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.upg-cost-row span{font-size:13px;color:var(--mute);font-weight:700}
+.upg-cost-row b{font-size:18px;font-weight:800}
+.upg-cost-row.low b{color:#ff8a80}
+.upg-btn{width:100%;margin-top:20px;border:0;background:var(--lime);color:var(--ink);font:inherit;font-weight:800;font-size:14px;letter-spacing:.02em;padding:16px 26px;border-radius:999px;cursor:pointer;transition:background-color .15s ease}
+.upg-btn:hover:not(:disabled){background:#d8ff3d}
+.upg-btn:disabled{background:rgba(255,255,255,.08);color:var(--dim);cursor:not-allowed}
+.upg-btn:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.upg-btn-note{margin-top:10px;font-size:12px;color:var(--mute);font-weight:600;text-align:center}
+.upg-max{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:200px;text-align:center}
+.upg-max b{font-size:18px;font-weight:800;color:var(--lime);letter-spacing:.04em}
+.upg-max span{font-size:13px;color:var(--mute);font-weight:600;max-width:320px}
+.upg-rarity{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.upg-rarity-common{background:rgba(255,255,255,.12);color:#fff}
+.upg-rarity-uncommon{background:rgba(107,220,120,.18);color:#8be89a}
+.upg-rarity-rare{background:rgba(90,170,255,.18);color:#8fc0ff}
+.upg-rarity-epic{background:rgba(190,110,255,.2);color:#cfa0ff}
+.upg-rarity-legendary{background:rgba(255,210,63,.2);color:#ffd23f}
+/* Upgrade sub-menu + Recharge view */
+.upg-menu{display:flex;gap:6px;margin-bottom:22px;padding:4px;background:rgba(255,255,255,.05);border:1px solid var(--edge);border-radius:999px;width:max-content}
+.upg-menu-btn{border:0;background:transparent;color:var(--mute);font:inherit;font-size:12px;font-weight:800;padding:10px 18px;border-radius:999px;cursor:pointer}
+.upg-menu-btn.active{background:var(--lime);color:var(--ink)}
+.upg-subview{display:none}.upg-subview.active{display:block}
+.upg-recharge-grid{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:stretch}
+.upg-recharge-pick{width:100%;aspect-ratio:1/1.05;border-radius:22px;border:1.5px dashed rgba(200,255,0,.4);background:transparent;color:var(--lime);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font:inherit;padding:16px;text-align:center}
+.upg-recharge-pick:hover{background:rgba(200,255,0,.08);border-color:var(--lime)}
+.upg-recharge-pick .upg-pick-plus{width:56px;height:56px}
+.upg-recharge-selected{width:100%;border-radius:22px;background:var(--g1);border:1px solid var(--edge);padding:14px;display:flex;flex-direction:column;gap:12px;text-align:left;cursor:pointer;font:inherit;color:#fff}
+.upg-recharge-selected:hover{border-color:var(--lime)}
+.upg-recharge-selected .upg-sel-art{aspect-ratio:1/1}
+.upg-power-card{background:var(--g2);border:1px solid var(--edge);border-radius:20px;padding:22px}
+.upg-power-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.upg-power-title{font-size:20px;font-weight:800}.upg-power-sub{margin-top:4px;color:var(--mute);font-size:12px;font-weight:600}
+.upg-battery-big{margin-top:24px;height:14px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden;border:1px solid rgba(200,255,0,.18)}
+.upg-battery-big i{display:block;height:100%;width:0;background:var(--lime);border-radius:999px}
+.upg-power-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.upg-power-stat{background:rgba(255,255,255,.05);border:1px solid rgba(200,255,0,.1);border-radius:14px;padding:13px}
+.upg-power-stat span{display:block;font-size:10px;color:var(--mute);font-weight:700;text-transform:uppercase;letter-spacing:.08em}.upg-power-stat b{display:block;margin-top:5px;font-size:16px;font-weight:800}
+.upg-recharge-action{margin-top:20px}.upg-recharge-action button{width:100%;border:0;background:var(--lime);color:var(--ink);font:inherit;font-weight:800;font-size:14px;padding:15px 24px;border-radius:999px;cursor:pointer}.upg-recharge-action button:disabled{background:rgba(255,255,255,.08);color:var(--dim);cursor:not-allowed}
+.upg-recharge-note{margin-top:10px;text-align:center;color:var(--mute);font-size:11px;font-weight:600}
+@media(max-width:800px){.upg-recharge-grid{grid-template-columns:1fr}.upg-recharge-pick,.upg-recharge-selected{max-width:280px;margin:auto}.upg-power-stats{grid-template-columns:1fr}}
+.upg-modal{position:fixed;inset:0;z-index:100;background:rgba(3,20,13,.72);display:flex;align-items:center;justify-content:center;padding:16px;animation:stkFade .15s ease}
+.upg-modal[hidden]{display:none}
+.upg-dialog{background:var(--g0);color:#fff;border:1px solid var(--edge);border-radius:28px;padding:28px;width:100%;max-width:640px;max-height:85vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.4);outline:0}
+.upg-dialog h3{margin:0 0 6px;font-size:21px;font-weight:800;letter-spacing:-.5px}
+.upg-dialog p{margin:0 0 18px;font-size:13px;color:var(--mute);font-weight:500;line-height:1.55}
+.upg-dialog p.upg-note{color:#fff;font-weight:700;font-size:14px}
+.upg-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.upg-pick-item{border:1px solid var(--edge);background:var(--g1);border-radius:18px;padding:8px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;gap:8px;font:inherit;color:#fff;text-align:left;min-width:0;transition:border-color .15s ease}
+.upg-pick-item:hover{border-color:var(--lime)}
+.upg-pick-item .upg-sel-art{border-radius:12px}
+.upg-pick-id{font-size:12px;font-weight:800;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upg-pick-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 4px}
+.upg-pick-lvl{font-size:11px;font-weight:700;color:var(--dim)}
+.upg-skel{aspect-ratio:1/1.2;border-radius:18px;background:var(--g1);border:1px solid var(--edge)}
+.upg-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;margin-top:22px}
+.upg-close{position:sticky;top:0;float:right;border:0;background:rgba(255,255,255,.1);color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;margin-bottom:-6px}
+.upg-close:hover{background:rgba(255,255,255,.18)}
+@media(max-width:800px){
+  .upg-wrap{padding:22px 16px;border-radius:26px}
+  .upg-grid{grid-template-columns:1fr}
+  .upg-pick-card,.upg-selected{max-width:280px;margin:0 auto}
+  .upg-panel{padding:18px}
+  .upg-dialog{padding:22px}
+}
+@media(prefers-reduced-motion:reduce){.upg-modal{animation:none}}
+</style></head><body>
+<nav class="site-nav">
+  <a class="brand" href="index.html">AXIVERSE</a>
+  <div class="site-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#summon">Mint</a>
+    <a href="index.html#lore">Lore</a>
+    <a href="axi.html">AXI</a>
+    <a href="mining.html" class="active">Mining</a>
+    <a href="docs.html">Docs</a>
+    <a class="mobile-wallet" href="#">CONNECT WALLET</a>
+  </div>
+  <button class="site-wallet" type="button">CONNECT WALLET</button>
+  <button class="menu-toggle" type="button" aria-label="Open menu">☰</button>
+</nav>
+
+<div class="page-head">
+  <div class="axi-tabs-wrap">
+    <div class="axi-tabs">
+      <button class="axi-tab active" type="button" data-tab="mining">Mining</button>
+      <button class="axi-tab" type="button" data-tab="epoch">Epoch</button>
+      <button class="axi-tab" type="button" data-tab="upgrade">Upgrade</button>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<section class="axi-view active" id="view-stake">
+  <div class="stk-stage">
+    <div class="stk-stage-head">
+      <div>
+        <h2>Your Mining Slots</h2>
+        <p id="stkHint"></p>
+      </div>
+      <div id="stkWallet"></div>
+    </div>
+    <div class="stk-stats">
+      <div class="stk-stat"><span class="stk-label">Creatures Mining</span><b id="stkStaked">0 / 1</b><small>mining slots in use</small></div>
+      <div class="stk-stat stk-stat-live"><span class="stk-label">This epoch</span><b id="stkLive">0.000</b><small>points, live</small></div>
+      <div class="stk-stat"><span class="stk-label">Total AXI Points</span><b id="stkBalance">0</b><small>AXI Points, all epochs</small></div>
+      <div class="stk-stat"><span class="stk-label">Next mining cycle ends in</span><b id="stkCountdown">—</b><small id="stkCountdownSub">no slot mining</small></div>
+    </div>
+    <div class="stk-slots" id="stkSlots"></div>
+  </div>
+
+  <div class="stk-panel">
+    <div class="stk-panel-head"><h2>History</h2></div>
+    <div id="stkHistory"></div>
+  </div>
+</section>
+
+<section class="axi-view epc" id="view-epoch">
+  <svg class="epc-sprite" aria-hidden="true" focusable="false"><defs>
+<symbol id="ei-diamond" viewBox="0 0 24 24"><path d="M12 2.6 21.4 12 12 21.4 2.6 12z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+<symbol id="ei-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.6" fill="none" stroke-width="1.8"/><path d="M3.5 10.2h17M8 3v3.6M16 3v3.6" fill="none" stroke-width="1.8" stroke-linecap="round"/><circle cx="8.2" cy="14.2" r="1.1"/><circle cx="12" cy="14.2" r="1.1"/><circle cx="15.8" cy="14.2" r="1.1"/></symbol>
+<symbol id="ei-users" viewBox="0 0 24 24"><circle cx="8.8" cy="7.6" r="3.7"/><path d="M1.6 20.4c0-4.3 3.2-7 7.2-7s7.2 2.7 7.2 7z"/><circle cx="17.4" cy="8.6" r="2.9"/><path d="M17.6 13.2c3 .3 5 2.4 5 5.3v1.9h-4.4c0-2.6-.8-4.6-2.4-6 .6-.7 1.3-1 1.8-1.2z"/></symbol>
+<symbol id="ei-star" viewBox="0 0 24 24"><path d="M12 2.4l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.2l-5.9 3.2 1.2-6.5L2.5 9.3l6.6-.9z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+<symbol id="ei-trophy" viewBox="0 0 24 24"><path d="M6.5 2.8h11v5.6a5.5 5.5 0 0 1-11 0z"/><path d="M6.5 4.6H3.3v1.7c0 2.3 1.6 4 3.9 4.3M17.5 4.6h3.2v1.7c0 2.3-1.6 4-3.9 4.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10.6 13.4h2.8v3.6h-2.8z"/><path d="M7.4 21.2v-1.8c0-1 .8-1.8 1.8-1.8h5.6c1 0 1.8.8 1.8 1.8v1.8z"/></symbol>
+<symbol id="ei-bars" viewBox="0 0 24 24"><rect x="2.8" y="11" width="5" height="10.4" rx="1.2"/><rect x="9.5" y="2.8" width="5" height="18.6" rx="1.2"/><rect x="16.2" y="7.5" width="5" height="13.9" rx="1.2"/></symbol>
+<symbol id="ei-gift" viewBox="0 0 24 24"><path d="M12 8.2C9 8.2 6.3 7.3 6.3 5.2a2.3 2.3 0 0 1 3.9-1.6L12 5.6l1.8-2a2.3 2.3 0 0 1 3.9 1.6c0 2.1-2.7 3-5.7 3z"/><rect x="2.4" y="8.2" width="19.2" height="4.6" rx="1.3"/><rect x="3.8" y="13.4" width="16.4" height="8.4" rx="1.6"/><rect x="8.6" y="14.6" width="1.9" height="6" rx=".4" fill="var(--e-cut,#03261a)"/><rect x="13.5" y="14.6" width="1.9" height="6" rx=".4" fill="var(--e-cut,#03261a)"/></symbol>
+<symbol id="ei-crown" viewBox="0 0 24 24"><path d="M2.6 8.2l4.6 4.1L12 4.6l4.8 7.7 4.6-4.1-1.9 10.8H4.5z"/><rect x="4.6" y="19.6" width="14.8" height="2.2" rx="1"/><circle cx="2.6" cy="7" r="1.6"/><circle cx="12" cy="3.6" r="1.6"/><circle cx="21.4" cy="7" r="1.6"/></symbol>
+<symbol id="ei-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.4"/><path d="M12 6.4V12l4 2.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="ei-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.9" r="1.1"/></symbol>
+<symbol id="ei-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9.3 9.6a2.8 2.8 0 1 1 4.2 2.4c-.9.5-1.5 1.1-1.5 2.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.1" fill="currentColor"/></symbol>
+<symbol id="ei-arrow" viewBox="0 0 24 24"><path d="M4.5 12h14M13 6.3l5.7 5.7-5.7 5.7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+  <div class="epc-hero">
+    
+    <div class="epc-head"><h2>EPOCH</h2></div>
+    <p class="epc-sub">Mine with your creatures and earn AXI Points each hour.<br>Complete each <span id="epcDaysTxt">3</span>-day epoch to unlock ETH rewards.</p>
+    <div class="epc-duo">
+      <div class="epc-card epc-current">
+        <div class="epc-card-title">Current Epoch</div>
+        <div class="epc-numrow"><span class="epc-live"><i class="stk-dot"></i>Soon</span></div>
+        
+        <div class="epc-progress">
+          <div class="epc-track" id="epcTrack" role="progressbar" aria-label="Epoch progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="epcBar"></i></div>
+          
+        </div>
+      </div>
+      <div class="epc-card epc-pool">
+        <div class="epc-pool-title">ETH Reward Pool <button class="epc-help" type="button" aria-label="How the prize pool works" title="The ETH reward pool is distributed to miners by their share of AXI Points earned this epoch."><svg aria-hidden="true"><use href="#ei-help"/></svg></button></div>
+        <div class="epc-pool-num"><img class="epc-usd epc-eth" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgPHBhdGggZmlsbD0iIzYyN0VFQSIgZD0iTTE2IDMyYzguODM3IDAgMTYtNy4xNjMgMTYtMTZTMjQuODM3IDAgMTYgMCAwIDcuMTYzIDAgMTZzNy4xNjMgMTYgMTYgMTZaIi8+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiIGQ9Ik0xNi40OTggNHY4Ljg3bDcuNDk3IDMuMzVMMTYuNDk4IDRaIi8+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTE2LjQ5OCA0IDkgMTYuMjJsNy40OTgtMy4zNVY0WiIvPgogIDxwYXRoIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iLjU1IiBkPSJNMTYuNDk4IDIxLjk2OHY2LjAyN0wyNCAxNy42MTZsLTcuNTAyIDQuMzUyWiIvPgogIDxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xNi40OTggMjcuOTk1di02LjAyOEw5IDE3LjYxNmw3LjQ5OCAxMC4zNzlaIi8+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0ibTE2LjQ5OCAyMC41NzMgNy40OTctNC4zNTMtNy40OTctMy4zNDh2Ny43MDFaIi8+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiIGQ9Im05IDE2LjIyIDcuNDk4IDQuMzUzdi03LjcwMUw5IDE2LjIyWiIvPgo8L3N2Zz4K" alt="ETH" aria-hidden="true"><b id="epcPool">0</b><span class="epc-cur">ETH</span></div>
+        <p>Distributed to miners based on AXI Points earned this epoch.</p>
+      </div>
+    </div>
+    <div class="epc-kpis">
+      <div class="epc-kpi"><svg class="epc-ic " aria-hidden="true"><use href="#ei-users"/></svg><div class="epc-kpi-t"><span>Your Miners</span><b id="epcCreatures">0 / 1</b><small>mining slots</small></div></div>
+      <div class="epc-kpi epc-kpi-lime"><svg class="epc-ic " aria-hidden="true"><use href="#ei-star"/></svg><div class="epc-kpi-t"><span>Your Points</span><b id="epcYourPts">0.000</b><small>points, live</small></div></div>
+      <div class="epc-kpi"><svg class="epc-ic " aria-hidden="true"><use href="#ei-bars"/></svg><div class="epc-kpi-t"><span>Total Mining</span><b id="epcTotalStaked">0</b><small>miners</small></div></div>
+    </div>
+  </div>
+
+  <div class="epc-panel epc-reward">
+    <div>
+      <div class="epc-reward-head"><svg class="epc-ic " aria-hidden="true"><use href="#ei-gift"/></svg><div><h3>Epoch Reward</h3><p>Your ETH reward becomes available after the epoch ends.</p></div></div>
+      <div class="epc-reward-box">
+        <div class="epc-rw-item"><span class="epc-rw-ic"><svg class="epc-ic " aria-hidden="true"><use href="#ei-star"/></svg></span><div class="epc-rw-t"><span>Your Total Points (This Epoch)</span><b class="epc-lime" id="epcRwPts">0.000</b></div></div>
+        <div class="epc-rw-item"><span class="epc-rw-ic"><svg class="epc-ic " aria-hidden="true"><use href="#ei-trophy"/></svg></span><div class="epc-rw-t"><span>Estimated ETH Reward</span><b><span id="epcRwEst">0.00</span><i>ETH</i></b></div></div>
+      </div>
+    </div>
+    <div class="epc-divider" aria-hidden="true"></div>
+    <div class="epc-claim">
+      <button class="epc-claim-btn" id="epcClaim" type="button" disabled><svg class="epc-ic " aria-hidden="true"><use href="#ei-gift"/></svg>CLAIM REWARD</button>
+      <div class="epc-claim-note"><svg class="epc-ic " aria-hidden="true"><use href="#ei-info"/></svg><span>Rewards can be claimed after the epoch ends.</span></div>
+    </div>
+  </div>
+
+  <div class="epc-hist">
+    <div class="epc-hist-head"><h3><svg class="epc-ic " aria-hidden="true"><use href="#ei-clock"/></svg>Epoch History</h3></div>
+    <div class="epc-table-wrap">
+      <table class="epc-table">
+        <thead><tr><th>Epoch</th><th>Period</th><th>ETH Reward Pool</th><th>Your Points</th><th>ETH Reward</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr class="epc-empty-row"><td colspan="6">Not start yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="axi-view" id="view-upgrade">
+  <div class="upg-wrap">
+    <div class="upg-menu" role="tablist" aria-label="Creature actions">
+      <button class="upg-menu-btn active" type="button" data-upg-view="level">1. UP LEVEL</button>
+      <button class="upg-menu-btn" type="button" data-upg-view="recharge">2. RECHARGE</button>
+    </div>
+    <div class="upg-grid">
+      <div id="upgSelectSlot"></div>
+      <div class="upg-panel" id="upgPanel">
+        <div class="upg-empty">Select a creature to view upgrade details.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="foot-top">
+    <div><a class="brand" href="index.html">AXIVERSE</a><div class="foot-tag">MINT. MINE. BUILD YOUR AXIVERSE.</div></div>
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#summon">Mint</a>
+      <a href="index.html#lore">Lore</a>
+      <a href="axi.html">AXI</a>
+      <a href="mining.html">Mining</a>
+      <a href="docs.html">Docs</a>
+      <a href="https://x.com/axiverseRH" target="_blank" rel="noopener">X</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Axiverse. All rights reserved.</span>
+    <span>Built by the Community. For a Bigger Tomorrow.</span>
+  </div>
+</footer>
+<script>
+(function(){
+  const tabs=document.querySelectorAll('.axi-tab');
+  const views={mining:document.getElementById('view-stake'),epoch:document.getElementById('view-epoch'),upgrade:document.getElementById('view-upgrade')};
+  function setTab(name){
+    tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
+    Object.keys(views).forEach(k=>views[k].classList.toggle('active',k===name));
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    setTab(t.dataset.tab);
+    history.replaceState(null,'','#'+t.dataset.tab);
+  }));
+  const initial=(location.hash||'').replace('#','');
+  if(initial==='epoch'||initial==='upgrade'||initial==='mining') setTab(initial);
+})();
+</script>
+<script>
+(function(){
+  const b=document.querySelector('.menu-toggle'),m=document.querySelector('.site-links');
+  if(b&&m){
+    b.addEventListener('click',()=>m.classList.toggle('open'));
+    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>m.classList.remove('open')));
+  }
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll('.nav-drop-toggle').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      const d=btn.closest('.nav-dropdown');
+      const wasOpen=d.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(x=>x.classList.remove('open'));
+      if(!wasOpen) d.classList.add('open');
+    });
+  });
+  document.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-dropdown.open').forEach(d=>d.classList.remove('open'));
+  });
+})();
+</script>
+<div class="stk-modal" id="stkModal" hidden>
+  <div class="stk-dialog" id="stkDialog" role="dialog" aria-modal="true" tabindex="-1"></div>
+</div>
+<div class="upg-modal" id="upgModal" hidden>
+  <div class="upg-dialog" id="upgDialog" role="dialog" aria-modal="true" tabindex="-1"></div>
+</div>
+<script src="wallet.js"></script>
+<script>
+/* Mining used to run its own wallet layer (window.ethereum + its own localStorage key).
+   That is gone: everything now goes through wallet.js, the same session the other
+   pages use, so connect state, the address menu and Disconnect behave identically. */
+window.AxStakeWallet=(function(){
+  const AW=()=>window.AxiverseWallet||null;
+  return{
+    available:()=>!!AW(),
+    provider:()=>{const a=AW();return a&&a.getProvider?a.getProvider():null;},
+    snapshot:()=>{
+      const a=AW();if(!a)return{account:null,chainOk:false};
+      const s=a.getState(),id=a.config&&a.config.CHAIN_ID;
+      return{account:s.address?s.address.toLowerCase():null,chainOk:!!s.address&&s.chainId===id};
+    },
+    connect:()=>{const a=AW();if(a)a.connect();},
+    switchChain:async()=>{const a=AW();if(!a||!a.switchChain)return;try{await a.switchChain();}catch(e){console.warn('Axiverse: chain switch failed',e);}},
+    subscribe:fn=>{const a=AW();return(a&&a.on)?a.on(fn):function(){};}
+  };
+})();
+</script>
+<script>
+(function(){
+  if(!document.getElementById('view-stake'))return;
+
+  /* ---------- config ---------- */
+  const CONFIG={
+    CHAIN_ID:4663,                    // Robinhood Chain mainnet
+    CHAIN_NAME:'Robinhood Chain',
+    NFT_ADDRESS:'',                   // TODO: Axiverse collection contract (ERC-721 with Enumerable)
+    IPFS_GATEWAY:'https://ipfs.io/ipfs/',
+    MINT_OPEN:false                   // set true when mint opens: shows the Summon button in the popup
+  };
+  const RATE=1;                       // points per hour per creature (make this per-creature once Upgrade ships)
+  const EPOCH_H=72;                   // epoch length in hours. Set to e.g. 0.01 to test epoch completion quickly
+  const EPOCH_MS=EPOCH_H*36e5;
+  const SLOTS=6, UNLOCKED_SLOTS=1, HIST_MAX=20, KEY='axiverse.mining.v1';
+  // Reward epoch: a separate, global 3-day cycle that splits a ETH prize pool across miners
+  // by their share of total points earned that epoch. Independent from each slot's own 3-day lock above.
+  // All network-wide numbers below are intentionally empty until the backend/indexer is wired.
+  const RW_POOL_ETH=0;                                  // TODO: wire to real treasury/contract balance
+  const RW_TOTAL_NETWORK_PTS=0;                          // TODO: wire to indexer/backend, network-wide points this epoch
+  const RW_TOTAL_MINING=0;                               // TODO: wire to indexer/backend, creatures mining network-wide
+  const RW_LEADERBOARD=[];                               // TODO: top 5 as [{pts}] from backend, empty = all 0.000
+  const RW_START=Date.UTC(2026,8,20);                    // epoch #001 start: 2026-09-20 00:00 UTC. TODO: set to the real start
+  const RW_H=72;                                         // reward epoch length in hours (3 days)
+  const RW_MS=RW_H*36e5;
+  const CHAIN_HEX='0x'+CONFIG.CHAIN_ID.toString(16);
+
+  /* ---------- helpers ---------- */
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt=(n,d=0)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+  const short=a=>a.slice(0,6)+'…'+a.slice(-4);
+  const pad=h=>String(h).replace(/^0x/,'').padStart(64,'0');
+  const hexNum=n=>BigInt(n).toString(16);
+  function fmtLeft(ms){
+    if(ms<=0)return '0m';
+    const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);
+    if(d)return d+'d '+h+'h '+m+'m';
+    if(h)return h+'h '+m+'m';
+    return m+'m '+s+'s';
+  }
+  const bridge=window.AxStakeWallet;
+  const provider=()=>bridge.provider();
+
+  /* ---------- chain reads (plain EIP-1193 eth_call, no libraries) ---------- */
+  const ethCall=async data=>{const p=provider();if(!p)throw new Error('Wallet provider unavailable');return p.request({method:'eth_call',params:[{to:CONFIG.NFT_ADDRESS,data},'latest']});};
+  // balanceOf(address) 0x70a08231, tokenOfOwnerByIndex(address,uint256) 0x2f745c59, tokenURI(uint256) 0xc87b56dd
+  async function getOwnedIds(account){
+    const bal=Number(BigInt(await ethCall('0x70a08231'+pad(account))));
+    const ids=[];
+    for(let s=0;s<bal;s+=8){
+      const batch=[];
+      for(let i=s;i<Math.min(s+8,bal);i++)batch.push(ethCall('0x2f745c59'+pad(account)+pad(hexNum(i))).then(r=>Number(BigInt(r))));
+      ids.push(...await Promise.all(batch));
+    }
+    return ids.sort((a,b)=>a-b);
+  }
+
+  /* ---------- metadata (tokenURI -> JSON -> image, IPFS aware) ---------- */
+  const meta=new Map(),inflight=new Map();
+  const ipfs=u=>(u&&u.startsWith('ipfs://'))?CONFIG.IPFS_GATEWAY+u.slice(7).replace(/^ipfs\//,''):u;
+  function decodeAbiString(h){
+    h=h.slice(2);
+    const len=parseInt(h.slice(64,128),16);
+    return decodeURIComponent(h.slice(128,128+len*2).replace(/../g,'%$&'));
+  }
+  const metaOf=id=>meta.get(id)||{name:'Axi #'+id,image:''};
+  function loadMeta(id){
+    if(meta.has(id))return Promise.resolve(meta.get(id));
+    if(inflight.has(id))return inflight.get(id);
+    const p=(async()=>{
+      try{
+        const uri=ipfs(decodeAbiString(await ethCall('0xc87b56dd'+pad(hexNum(id)))));
+        const j=await (await fetch(uri)).json();
+        const m={name:j.name||'Axi #'+id,image:ipfs(j.image||j.image_url||'')};
+        meta.set(id,m);return m;
+      }catch(e){console.warn('Axiverse: metadata failed for #'+id,e);return metaOf(id);}
+      finally{inflight.delete(id);}
+    })();
+    inflight.set(id,p);return p;
+  }
+  async function hydrate(ids,onEach){
+    const q=ids.filter(id=>!meta.has(id));let k=0;
+    await Promise.all(Array.from({length:Math.min(6,q.length)},async()=>{
+      while(k<q.length){const id=q[k++];await loadMeta(id);if(onEach)onEach(id);}
+    }));
+  }
+  function art(id){
+    const m=metaOf(id);
+    return '<span class="stk-art"><span class="stk-ph">#'+Number(id)+'</span>'+(m.image?'<img src="'+esc(m.image)+'" alt="" loading="lazy">':'')+'</span>';
+  }
+  document.addEventListener('error',e=>{if(e.target&&e.target.tagName==='IMG'&&e.target.closest('.stk-art'))e.target.classList.add('stk-img-broken');},true);
+
+  /* ---------- wallet ---------- */
+  const wallet={account:null,chainOk:false};
+  async function syncWallet(){
+    const w=bridge.snapshot();
+    wallet.account=w.account;wallet.chainOk=w.chainOk;
+  }
+  async function switchChain(){
+    await bridge.switchChain();
+    await syncWallet();onWalletChange();
+  }
+  function connect(){bridge.connect();}   // opens wallet.js's connect modal; result arrives via bridge.subscribe below
+
+  /* ---------- state ----------
+     Every slot runs its own epoch: slots[i] = null | {id, start}.
+     Saved per wallet address. pending[i] = creature picked for slot i but not mined yet.
+     NOTE: this is front-end state only. Locking on-chain / server-side is not wired yet. */
+  const fresh=()=>({slots:Array(SLOTS).fill(null),balance:0,history:[]});
+  const stateKey=()=>wallet.account?KEY+':'+wallet.account:null;
+  function load(){
+    const k=stateKey();
+    if(k){try{const s=JSON.parse(localStorage.getItem(k));
+      if(s&&Array.isArray(s.slots)&&s.slots.length===SLOTS&&Array.isArray(s.history))return Object.assign(fresh(),s);}catch(e){}}
+    return fresh();
+  }
+  function save(){const k=stateKey();if(!k)return;try{localStorage.setItem(k,JSON.stringify(state));}catch(e){}}
+  let state=fresh();
+  let pending=Array(SLOTS).fill(null);
+
+  const els={staked:$('stkStaked'),live:$('stkLive'),balance:$('stkBalance'),countdown:$('stkCountdown'),countdownSub:$('stkCountdownSub'),
+    hint:$('stkHint'),wallet:$('stkWallet'),slots:$('stkSlots'),hist:$('stkHistory'),modal:$('stkModal'),dialog:$('stkDialog'),
+    epcDaysTxt:$('epcDaysTxt'),epcNum:$('epcNum'),epcRange:$('epcRange'),epcDays:$('epcDays'),epcTrack:$('epcTrack'),epcBar:$('epcBar'),epcLeft:$('epcLeft'),
+    epcPool:$('epcPool'),epcCreatures:$('epcCreatures'),epcYourPts:$('epcYourPts'),epcRank:$('epcRank'),epcTotalStaked:$('epcTotalStaked'),
+    epcRwPts:$('epcRwPts'),epcRwEst:$('epcRwEst'),epcHNum:$('epcHNum'),epcHPeriod:$('epcHPeriod'),epcHPool:$('epcHPool'),epcHPts:$('epcHPts')};
+  const miningSlots=()=>state.slots.filter(Boolean);
+
+  /* ---------- epoch logic ---------- */
+  // Runs on load and every tick: any slot whose epoch is over gets its points credited,
+  // its creature unlocked and the slot emptied. No claim button.
+  function settle(now){
+    let changed=false;
+    state.slots.forEach((s,i)=>{
+      if(!s||now<s.start+EPOCH_MS)return;
+      const earned=EPOCH_H*RATE;
+      state.balance+=earned;
+      state.history.unshift({t:s.start+EPOCH_MS,type:'complete',slot:i+1,id:s.id,pts:earned});
+      state.slots[i]=null;changed=true;
+    });
+    if(changed){
+      state.history.sort((a,b)=>b.t-a.t);
+      state.history=state.history.slice(0,HIST_MAX);
+      save();
+    }
+    return changed;
+  }
+  function mineSlot(i){
+    const id=pending[i];
+    if(id==null||state.slots[i]||!wallet.account)return;
+    const t=Date.now();
+    state.slots[i]={id,start:t};
+    pending[i]=null;
+    state.history.unshift({t,type:'start',slot:i+1,id,pts:0});
+    state.history=state.history.slice(0,HIST_MAX);
+    save();renderAll();
+  }
+
+  /* ---------- render ---------- */
+  function renderWallet(){
+    let h;
+    if(!bridge.available())h='<span class="stk-chip">Wallet unavailable</span>';
+    else if(!wallet.account)h='<button class="stk-chip stk-chip-btn" type="button" data-stk-connect>Connect wallet</button>';
+    else if(!wallet.chainOk)h='<button class="stk-chip stk-chip-warn" type="button" data-stk-switch>Switch to '+esc(CONFIG.CHAIN_NAME)+'</button>';
+    else h='<span class="stk-chip"><i class="stk-dot"></i>'+short(wallet.account)+'</span>';
+    els.wallet.innerHTML=h;
+    // The nav buttons (.site-wallet / .mobile-wallet) are owned by wallet.js.
+  }
+  function renderSlots(){
+    let html='';
+    for(let i=0;i<SLOTS;i++){
+      const s=state.slots[i],id=pending[i],label='<span>Slot '+(i+1)+'</span>';
+      if(i>=UNLOCKED_SLOTS){
+        html+='<div class="stk-slot-locked-static"><div class="stk-slot-top">'+label+'<span class="stk-tag">Locked</span></div>'+
+          '<div class="stk-lock-art" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path><circle cx="12" cy="15.5" r="1"></circle></svg></div>'+
+          '<div class="stk-locked-copy"><b>Mining Slot Locked</b><span>Unlock this slot to mine more AXI Points.</span></div>'+
+          '<button class="stk-upgrade-slot" type="button" data-slot-upgrade="'+i+'">Upgrade</button></div>';
+        continue;
+      }
+      if(s){
+        html+='<div class="stk-slot stk-slot-locked"><div class="stk-slot-top">'+label+'<span class="stk-tag">Mining</span></div>'+art(s.id)+
+          '<div class="stk-info"><span class="stk-name">'+esc(metaOf(s.id).name)+'</span>'+
+          '<div class="stk-sub stk-row"><span class="stk-slot-pts" data-pts="'+i+'">+0.000 AXI</span><span data-left="'+i+'"></span></div>'+ 
+          '<div class="stk-bar"><i data-bar="'+i+'"></i></div></div>'+
+          '<button class="stk-btn" type="button" disabled>Mining</button></div>';
+      }else if(id!=null){
+        html+='<div class="stk-slot"><div class="stk-slot-top">'+label+'<button class="stk-remove" type="button" data-act="remove" data-i="'+i+'">Remove</button></div>'+art(id)+
+          '<div class="stk-info"><span class="stk-name">'+esc(metaOf(id).name)+'</span><span class="stk-sub">Ready to mine</span></div>'+ 
+          '<button class="stk-btn" type="button" data-act="mine" data-i="'+i+'">Start Mining</button></div>';
+      }else{
+        html+='<div class="stk-slot"><div class="stk-slot-top">'+label+'<span class="stk-tag">Available</span></div>'+ 
+          '<button class="stk-add" type="button" data-act="add" data-i="'+i+'" aria-label="Add a creature to mining slot '+(i+1)+'"><span class="stk-plus" aria-hidden="true">+</span><span class="stk-add-text">Add creature</span></button>'+ 
+          '<div class="stk-info"><span class="stk-name stk-muted">No creature yet</span><span class="stk-sub">Pick one from your wallet to start mining</span></div>'+ 
+          '<button class="stk-btn" type="button" disabled>Start Mining</button></div>';
+      }
+    }
+    els.slots.innerHTML=html;
+  }
+  function renderStats(now){
+    const active=miningSlots();
+    let live=0,soonest=Infinity;
+    state.slots.forEach((s,i)=>{
+      if(!s)return;
+      const elapsed=Math.min(now-s.start,EPOCH_MS),per=(elapsed/36e5)*RATE;
+      live+=per;soonest=Math.min(soonest,s.start+EPOCH_MS-now);
+      const pts=els.slots.querySelector('[data-pts="'+i+'"]'),bar=els.slots.querySelector('[data-bar="'+i+'"]'),left=els.slots.querySelector('[data-left="'+i+'"]');
+      if(pts)pts.textContent='+'+fmt(per,3)+' pts';
+      if(bar)bar.style.width=(elapsed/EPOCH_MS*100).toFixed(2)+'%';
+      if(left)left.textContent=fmtLeft(s.start+EPOCH_MS-now)+' left';
+    });
+    els.staked.textContent=active.length+' / '+UNLOCKED_SLOTS;
+    els.live.textContent=fmt(live,3);
+    els.balance.textContent=fmt(state.balance);
+    if(active.length){
+      els.countdown.textContent=fmtLeft(soonest);
+      els.countdownSub.textContent=active.length>1?'first slot to finish':'then AXI Points are credited';
+    }else{
+      els.countdown.textContent='—';
+      els.countdownSub.textContent='no slot mining';
+    }
+  }
+  function renderHistory(){
+    if(!state.history.length){
+      els.hist.innerHTML='<div class="stk-empty">No activity yet. Add a creature to an unlocked slot to start mining.</div>';return;
+    }
+    const rows=state.history.map(h=>{
+      const when=new Date(h.t).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+      const done=h.type==='complete';
+      return '<tr><td>'+when+'</td><td><span class="stk-pill '+(done?'done':'start')+'">'+(done?'Mining cycle completed':'Mining started')+'</span></td><td>Slot '+Number(h.slot)+'</td><td>#'+Number(h.id)+'</td><td class="r">'+(done?'+'+fmt(h.pts):'—')+'</td></tr>';
+    }).join('');
+    els.hist.innerHTML='<div class="stk-table-wrap"><table class="stk-table"><thead><tr><th>Time</th><th>Event</th><th>Slot</th><th>Creature</th><th class="r">Points</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+  function renderAll(){
+    els.hint.textContent='Each unlocked slot runs its own '+(EPOCH_H/24)+'-day mining cycle and earns '+RATE+' AXI Point per hour. Add a creature to start mining.';
+    renderSlots();renderStats(Date.now());renderHistory();
+    renderEpoch(Date.now());
+  }
+
+  /* ---------- reward epoch (global, 3-day, ETH reward pool) ---------- */
+  function rwInfo(now){
+    const n=Math.max(0,Math.floor((now-RW_START)/RW_MS));
+    const start=RW_START+n*RW_MS;
+    return {num:n+1,start,end:start+RW_MS};
+  }
+  function yourEpochPoints(now,info){
+    let pts=0;
+    state.slots.forEach(s=>{
+      if(!s)return;
+      const from=Math.max(s.start,info.start),to=Math.min(now,s.start+EPOCH_MS,info.end);
+      if(to>from)pts+=((to-from)/36e5)*RATE;
+    });
+    state.history.forEach(h=>{if(h.type==='complete'&&h.t>=info.start&&h.t<info.end)pts+=h.pts;});
+    return pts;
+  }
+  const p2=n=>String(n).padStart(2,'0');
+  const utcDate=ms=>new Date(ms).toLocaleDateString('en-US',{timeZone:'UTC',month:'short',day:'numeric',year:'numeric'});
+  const utcStamp=ms=>{const d=new Date(ms);return utcDate(ms)+' '+p2(d.getUTCHours())+':'+p2(d.getUTCMinutes())+' UTC';};
+  function fmtEpochLeft(ms){
+    if(ms<=0)return '00m';
+    const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);
+    if(d)return d+'d '+p2(h)+'h '+p2(m)+'m';
+    if(h)return p2(h)+'h '+p2(m)+'m';
+    return p2(m)+'m '+p2(s)+'s';
+  }
+  function renderEpoch(now){
+    if(!els.epcPool)return;
+    const info=rwInfo(now),num='#'+String(info.num).padStart(3,'0'),days=RW_H/24;
+    els.epcDaysTxt.textContent=days;
+    els.epcNum.textContent='';
+    const pct=100;
+    els.epcBar.style.width=pct.toFixed(2)+'%';
+    els.epcTrack.setAttribute('aria-valuenow',Math.round(pct));
+    els.epcLeft.textContent='';
+    els.epcPool.textContent=fmt(RW_POOL_ETH);
+    const yourPts=yourEpochPoints(now,info),ptsTxt=fmt(yourPts,3);
+    els.epcCreatures.textContent=miningSlots().length+' / '+UNLOCKED_SLOTS;
+    els.epcYourPts.textContent=ptsTxt;
+    els.epcTotalStaked.textContent=fmt(RW_TOTAL_MINING);
+    els.epcRwPts.textContent=ptsTxt;
+    const totalNet=Math.max(RW_TOTAL_NETWORK_PTS,yourPts),share=totalNet>0?yourPts/totalNet:0;
+    els.epcRwEst.textContent=fmt(RW_POOL_ETH*share,2);
+    for(let i=0;i<5;i++){const e=$('epcLb'+i);if(e)e.textContent=fmt((RW_LEADERBOARD[i]&&RW_LEADERBOARD[i].pts)||0,3);}
+  }
+  function prefetchStaked(){
+    if(!wallet.account||!wallet.chainOk||!CONFIG.NFT_ADDRESS)return;
+    const ids=miningSlots().map(s=>s.id);
+    if(ids.length)hydrate(ids,()=>{renderSlots();renderStats(Date.now());});
+  }
+  function onWalletChange(){
+    state=load();pending=Array(SLOTS).fill(null);
+    settle(Date.now());
+    renderWallet();renderAll();prefetchStaked();
+    if(!els.modal.hidden){
+      if(els.modal.dataset.mode==='picker')showPicker(Number(els.dialog.dataset.slot));
+      else closeModal();
+    }
+  }
+
+  /* ---------- modal ---------- */
+  let lastFocus=null,pickerRun=0;
+  function refocus(){
+    const a=document.activeElement;
+    if(!els.dialog.contains(a)||a===els.dialog){
+      const f=els.dialog.querySelector('button:not(:disabled),a[href]');(f||els.dialog).focus();
+    }
+  }
+  function openModal(html,opener,mode){
+    lastFocus=opener||document.activeElement;
+    els.modal.dataset.mode=mode||'';
+    els.dialog.innerHTML=html;els.modal.hidden=false;refocus();
+  }
+  function closeModal(){
+    pickerRun++;
+    els.modal.hidden=true;els.modal.dataset.mode='';els.dialog.innerHTML='';
+    const target=(lastFocus&&document.contains(lastFocus)&&!lastFocus.disabled)?lastFocus:els.slots.querySelector('button:not(:disabled)');
+    if(target)target.focus();
+  }
+  function phPicker(text,actions){
+    return '<h3>Choose a creature</h3><p class="stk-note">'+text+'</p><div class="stk-dialog-actions"><button class="stk-btn stk-btn-ghost" type="button" data-close>Close</button>'+(actions||'')+'</div>';
+  }
+  const NO_NFT_TEXT='You don\'t own any NFTs.'+(CONFIG.MINT_OPEN?' Summon one to start staking.':'');
+  const summonCta=()=>CONFIG.MINT_OPEN?'<a class="stk-btn" href="index.html#summon">Summon a creature</a>':'';
+  const msg=(title,body,actions,closeLabel)=>'<div class="stk-msg"><h3>'+title+'</h3><p>'+body+'</p></div><div class="stk-dialog-actions"><button class="stk-btn stk-btn-ghost" type="button" data-close>'+(closeLabel||'Close')+'</button>'+(actions||'')+'</div>';
+  function pickerGrid(ids,slot){
+    const taken=new Map();
+    pending.forEach((id,idx)=>{if(id!=null)taken.set(id,idx+1);});
+    state.slots.forEach((s,idx)=>{if(s)taken.set(s.id,idx+1);});
+    const free=ids.filter(id=>!taken.has(id)).length;
+    return '<h3>Choose a creature</h3><p>'+(free?'Pick a creature for slot '+(slot+1)+'.':'Every creature you own is already in a slot.')+'</p><div class="stk-picks">'+
+      ids.map(id=>{const s=taken.get(id);
+        return '<button class="stk-pick" type="button" data-pick="'+id+'"'+(s?' disabled':'')+'>'+art(id)+'<span class="stk-pick-name">'+esc(metaOf(id).name)+'</span>'+(s?'<span class="stk-taken">In slot '+s+'</span>':'')+'</button>';}).join('')+
+      '</div><div class="stk-dialog-actions"><button class="stk-btn stk-btn-ghost" type="button" data-close>Cancel</button></div>';
+  }
+  async function showPicker(slot){
+    const run=++pickerRun;
+    const put=h=>{if(run!==pickerRun||els.modal.hidden)return false;els.dialog.innerHTML=h;refocus();return true;};
+    if(!bridge.available())return put(phPicker(NO_NFT_TEXT));
+    if(!wallet.account)return put(phPicker('Connect your wallet to see your Axiverse creatures.','<button class="stk-btn" type="button" data-stk-connect>Connect wallet</button>'));
+    if(!wallet.chainOk)return put(phPicker('Switch to '+esc(CONFIG.CHAIN_NAME)+' to see your Axiverse creatures.','<button class="stk-btn" type="button" data-stk-switch>Switch network</button>'));
+    if(!CONFIG.NFT_ADDRESS){console.warn('Axiverse: CONFIG.NFT_ADDRESS is empty, showing the no-creatures popup');return put(phPicker(NO_NFT_TEXT,summonCta()));}
+    put('<h3>Choose a creature</h3><p>Loading your creatures…</p><div class="stk-picks">'+'<div class="stk-skel"></div>'.repeat(6)+'</div><div class="stk-dialog-actions"><button class="stk-btn stk-btn-ghost" type="button" data-close>Cancel</button></div>');
+    let ids;
+    try{ids=await getOwnedIds(wallet.account);}
+    catch(e){console.error('Axiverse: could not load creatures',e);return put(phPicker('Couldn\'t load your creatures. Check your connection and try again.','<button class="stk-btn" type="button" data-stk-retry>Try again</button>'));}
+    if(!ids.length)return put(phPicker(NO_NFT_TEXT,summonCta()));
+    if(!put(pickerGrid(ids,slot)))return;
+    hydrate(ids,id=>{
+      const t=els.dialog.querySelector('[data-pick="'+id+'"]');
+      if(!t)return;
+      t.querySelector('.stk-art').outerHTML=art(id);
+      t.querySelector('.stk-pick-name').textContent=metaOf(id).name;
+    });
+  }
+  function openPicker(i,opener){
+    openModal('<h3>Choose a creature</h3><p>Checking your wallet…</p>',opener,'picker');
+    els.dialog.dataset.slot=i;
+    showPicker(i);
+  }
+  function openConfirm(i,opener){
+    const id=pending[i];if(id==null||state.slots[i])return;
+    openModal('<h3>Start mining '+esc(metaOf(id).name)+' for '+(EPOCH_H/24)+' days?</h3><p>Slot '+(i+1)+' starts its own epoch. You can\'t stop mining early. When it ends, '+fmt(EPOCH_H*RATE)+' AXI Points are added to your balance and the slot opens again automatically.</p><div class="stk-dialog-actions"><button class="stk-btn stk-btn-ghost" type="button" data-close>Cancel</button><button class="stk-btn" type="button" data-confirm>Start Mining</button></div>',opener,'confirm');
+    els.dialog.dataset.slot=i;
+  }
+
+  /* ---------- events ---------- */
+  els.slots.addEventListener('click',e=>{
+    const u=e.target.closest('[data-slot-upgrade]');
+    if(u){
+      const tab=document.querySelector('.axi-tab[data-tab="upgrade"]');
+      if(tab)tab.click();
+      return;
+    }
+    const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+    const i=Number(b.dataset.i);
+    if(b.dataset.act==='remove'){pending[i]=null;renderAll();}
+    else if(b.dataset.act==='add')openPicker(i,b);
+    else if(b.dataset.act==='mine')openConfirm(i,b);
+  });
+  els.modal.addEventListener('click',e=>{
+    if(e.target===els.modal||e.target.closest('[data-close]')){closeModal();return;}
+    const p=e.target.closest('[data-pick]');
+    if(p&&!p.disabled){pending[Number(els.dialog.dataset.slot)]=Number(p.dataset.pick);renderAll();closeModal();return;}
+    if(e.target.closest('[data-confirm]')){mineSlot(Number(els.dialog.dataset.slot));closeModal();}
+  });
+  document.addEventListener('click',e=>{
+    const t=e.target;if(!t.closest)return;
+    if(t.closest('[data-stk-connect]'))connect();
+    else if(t.closest('[data-stk-switch]'))switchChain();
+    else if(t.closest('[data-stk-retry]'))showPicker(Number(els.dialog.dataset.slot));
+  });
+  document.addEventListener('keydown',e=>{
+    if(els.modal.hidden)return;
+    if(e.key==='Escape'){closeModal();return;}
+    if(e.key==='Tab'){
+      const f=[...els.dialog.querySelectorAll('button:not(:disabled),a[href]')];
+      if(!f.length){e.preventDefault();return;}
+      const a=f[0],z=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}
+      else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}
+    }
+  });
+  // wallet.js emits connected / restored / accountChanged / chainChanged / disconnected.
+  bridge.subscribe(async()=>{await syncWallet();onWalletChange();});
+
+  /* ---------- boot ---------- */
+  function tick(){
+    const now=Date.now();
+    if(settle(now)){renderAll();return;}
+    renderStats(now);
+    renderEpoch(now);
+  }
+  renderWallet();renderAll();
+  syncWallet().then(onWalletChange);
+  setInterval(tick,1000);
+})();
+</script>
+<script>
+/* === Axiverse Upgrade — clean front-end flow === */
+(function(){
+  if(!document.getElementById('view-upgrade')) return;
+
+  const CONFIG = {
+    CHAIN_ID: 4663,
+    CHAIN_NAME: 'Robinhood Chain',
+    NFT_ADDRESS: '',   // Set when the Axiverse ERC-721 is deployed.
+    AXI_ADDRESS: '',   // Set when AXI is deployed.
+    IPFS_GATEWAY: 'https://ipfs.io/ipfs/'
+  };
+
+  const CHAIN_HEX = '0x' + CONFIG.CHAIN_ID.toString(16);
+  const MAX_LEVEL = 5;
+  const LEVEL_KEY = 'axiverse.upgrade.levels.v2';
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+  const bridge = window.AxStakeWallet;
+  const provider = () => bridge.provider();
+  const fmt = n => Number(n).toLocaleString('en-US');
+  const pad = h => String(h).replace(/^0x/,'').padStart(64,'0');
+  const hexNum = n => BigInt(n).toString(16);
+
+  const els = {
+    select: $('upgSelectSlot'),
+    panel: $('upgPanel'),
+    modal: $('upgModal'),
+    dialog: $('upgDialog')
+  };
+
+  const wallet = {account:null, chainOk:false};
+  let selectedId = null;
+  let levels = {};
+
+  const rarityClass = r => 'upg-rarity-' + String(r || 'common').toLowerCase();
+  const meta = new Map();
+  const inflight = new Map();
+
+  function loadLevels(){
+    if(!wallet.account) return {};
+    try{
+      const raw = localStorage.getItem(LEVEL_KEY + ':' + wallet.account);
+      const parsed = raw ? JSON.parse(raw) : {};
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    }catch(e){ return {}; }
+  }
+
+  function saveLevels(){
+    if(!wallet.account) return;
+    try{
+      localStorage.setItem(LEVEL_KEY + ':' + wallet.account, JSON.stringify(levels));
+    }catch(e){}
+  }
+
+  /*
+   * Level is temporary front-end state until the Axiverse NFT contract exposes
+   * an on-chain level value. It never claims an upgrade succeeded on-chain.
+   */
+  function levelOf(id){
+    const n = Number(levels[id]);
+    return Number.isInteger(n) && n >= 1 && n <= MAX_LEVEL ? n : 1;
+  }
+
+  function providerCall(data, to){
+    const p = provider();
+    if(!p) return Promise.reject(new Error('Wallet provider unavailable'));
+    return p.request({
+      method:'eth_call',
+      params:[{to, data}, 'latest']
+    });
+  }
+
+  async function getOwnedIds(account){
+    if(!CONFIG.NFT_ADDRESS) return [];
+
+    const balanceHex = await providerCall('0x70a08231' + pad(account), CONFIG.NFT_ADDRESS);
+    const balance = Number(BigInt(balanceHex));
+    const ids = [];
+
+    for(let i=0;i<balance;i+=8){
+      const jobs = [];
+      for(let j=i;j<Math.min(i+8,balance);j++){
+        jobs.push(
+          providerCall('0x2f745c59' + pad(account) + pad(hexNum(j)), CONFIG.NFT_ADDRESS)
+            .then(r => Number(BigInt(r)))
+        );
+      }
+      ids.push(...await Promise.all(jobs));
+    }
+    return ids.sort((a,b)=>a-b);
+  }
+
+  function ipfs(u){
+    if(!u) return '';
+    return u.startsWith('ipfs://')
+      ? CONFIG.IPFS_GATEWAY + u.slice(7).replace(/^ipfs\//,'')
+      : u;
+  }
+
+  function decodeAbiString(h){
+    h = String(h).slice(2);
+    const len = parseInt(h.slice(64,128),16);
+    if(!Number.isFinite(len)) throw new Error('Invalid token URI');
+    return decodeURIComponent(
+      h.slice(128,128+len*2).replace(/../g,'%$&')
+    );
+  }
+
+  function parseAttribute(attrs, names){
+    if(!Array.isArray(attrs)) return null;
+    const wanted = names.map(x=>String(x).toLowerCase());
+    for(const a of attrs){
+      const key = String(a?.trait_type ?? a?.traitType ?? a?.name ?? '').toLowerCase();
+      if(wanted.includes(key)) return a?.value ?? null;
+    }
+    return null;
+  }
+
+  function fallbackMeta(id){
+    return {name:'Axiverse #' + id, image:'', rarity:null};
+  }
+
+  function metaOf(id){
+    return meta.get(id) || fallbackMeta(id);
+  }
+
+  async function loadMeta(id){
+    if(meta.has(id)) return meta.get(id);
+    if(inflight.has(id)) return inflight.get(id);
+
+    const p = (async()=>{
+      try{
+        if(!CONFIG.NFT_ADDRESS) return fallbackMeta(id);
+
+        const raw = await providerCall(
+          '0xc87b56dd' + pad(hexNum(id)),
+          CONFIG.NFT_ADDRESS
+        );
+        const uri = ipfs(decodeAbiString(raw));
+        const res = await fetch(uri);
+        if(!res.ok) throw new Error('Metadata request failed');
+        const j = await res.json();
+
+        const m = {
+          name: j.name || ('Axiverse #' + id),
+          image: ipfs(j.image || j.image_url || ''),
+          rarity: parseAttribute(j.attributes, ['rarity','tier'])
+        };
+        meta.set(id,m);
+        return m;
+      }catch(e){
+        console.warn('Axiverse Upgrade: metadata failed for #' + id, e);
+        return fallbackMeta(id);
+      }finally{
+        inflight.delete(id);
+      }
+    })();
+
+    inflight.set(id,p);
+    return p;
+  }
+
+  function artHtml(id, cls='upg-sel-art'){
+    const m = metaOf(id);
+    return '<span class="'+cls+'"><span class="upg-sel-ph">#'+Number(id)+'</span>' +
+      (m.image ? '<img src="'+esc(m.image)+'" alt="" loading="lazy">' : '') +
+      '</span>';
+  }
+
+  function renderSelect(){
+    if(selectedId == null){
+      els.select.innerHTML =
+        '<button class="upg-pick-card" type="button" id="upgPickBtn">' +
+          '<span class="upg-pick-plus" aria-hidden="true">+</span>' +
+          '<span class="upg-pick-text">Select a creature</span>' +
+          '<span class="upg-pick-sub">Choose an NFT from your collection</span>' +
+        '</button>';
+    }else{
+      const m = metaOf(selectedId);
+      const lvl = levelOf(selectedId);
+      const rarity = m.rarity;
+
+      els.select.innerHTML =
+        '<button class="upg-selected" type="button" id="upgPickBtn">' +
+          artHtml(selectedId) +
+          '<span class="upg-sel-name">'+esc(m.name)+'</span>' +
+          '<span class="upg-sel-meta">' +
+            (rarity ? '<span class="upg-rarity '+rarityClass(rarity)+'">'+esc(rarity)+'</span>' : '') +
+            '<span class="upg-lvl-badge">Lv.'+lvl+'</span>' +
+          '</span>' +
+          '<span class="upg-sel-change">Change creature</span>' +
+        '</button>';
+    }
+
+    $('upgPickBtn')?.addEventListener('click', e => openPicker(e.currentTarget));
+  }
+
+  let upgradeView = 'level';
+
+  function creatureStatsHtml(id){
+    const blank = id == null;
+    const m = blank ? {name:'—',rarity:null,attributes:[]} : metaOf(id);
+    const lvl = blank ? '—' : levelOf(id);
+    const power = blank ? '—' : (parseAttribute(m.attributes,['power','power/hour','points per hour']) ?? '—');
+    const battery = blank ? '—' : (parseAttribute(m.attributes,['battery','energy','max battery']) ?? '—');
+    return {m,lvl,power,battery};
+  }
+
+  function renderUpgradeView(){
+    const {m,lvl,power,battery} = creatureStatsHtml(selectedId);
+    const selected = selectedId != null;
+
+    if(!selected){
+      els.panel.innerHTML =
+        '<div class="upg-head"><h2>Up Level</h2><div class="upg-lvlrow"><span class="upg-lvl-badge">—</span><span class="upg-lvl-arrow">→</span><span class="upg-lvl-badge target">—</span></div></div>' +
+        '<div class="upg-track">'+Array.from({length:5},(_,i)=>'<span class="upg-step">'+(i+1)+'</span>'+(i<4?'<span class="upg-track-line"></span>':'')).join('')+'</div>' +
+        '<div class="upg-creature-stats">' +
+          '<div class="upg-creature-stat"><span>Name</span><b>—</b></div>' +
+          '<div class="upg-creature-stat"><span>Rarity</span><b>—</b></div>' +
+          '<div class="upg-creature-stat"><span>Power</span><b>—</b></div>' +
+          '<div class="upg-creature-stat"><span>Level</span><b>—</b></div>' +
+          '<div class="upg-creature-stat"><span>Battery</span><b>—</b></div>' +
+        '</div>' +
+        '<div class="upg-cost"><div class="upg-cost-row"><span>Upgrade Cost</span><b>Coming Soon</b></div><div class="upg-cost-row"><span>AXI</span><b>Burned</b></div></div>' +
+        '<button class="upg-btn" type="button" disabled>UPGRADE</button>' +
+        '<div class="upg-btn-note">Select an Axiverse NFT to upgrade.</div>';
+      return;
+    }
+
+    if(lvl >= MAX_LEVEL){
+      els.panel.innerHTML = '<div class="upg-head"><h2>Up Level</h2></div><div class="upg-max"><b>MAX LEVEL</b><span>'+esc(m.name)+' has reached Level '+MAX_LEVEL+'.</span></div>';
+      return;
+    }
+
+    const next = lvl + 1;
+    const track = Array.from({length:MAX_LEVEL}, (_,i)=>{
+      const n=i+1, cls=n<lvl?'done':(n===lvl?'current':(n===next?'target':''));
+      return '<span class="upg-step '+cls+'">'+n+'</span>'+(n<MAX_LEVEL?'<span class="upg-track-line"></span>':'');
+    }).join('');
+    const batteryValue = String(battery);
+    const batteryPct = /^\d+(?:\.\d+)?%$/.test(batteryValue) ? Math.max(0,Math.min(100,parseFloat(batteryValue))) : 0;
+
+    els.panel.innerHTML =
+      '<div class="upg-head"><h2>Up Level</h2><div class="upg-lvlrow"><span class="upg-lvl-badge">Level '+lvl+'</span><span class="upg-lvl-arrow">→</span><span class="upg-lvl-badge target">Level '+next+'</span></div></div>' +
+      '<div class="upg-track">'+track+'</div>' +
+      '<div class="upg-creature-stats">' +
+        '<div class="upg-creature-stat"><span>Name</span><b>'+esc(m.name||'—')+'</b></div>' +
+        '<div class="upg-creature-stat"><span>Rarity</span><b>'+esc(m.rarity||'—')+'</b></div>' +
+        '<div class="upg-creature-stat"><span>Power</span><b>'+esc(power)+'</b></div>' +
+        '<div class="upg-creature-stat"><span>Level</span><b>'+lvl+'</b></div>' +
+        '<div class="upg-creature-stat"><span>Battery</span><b>'+esc(battery)+'</b></div>' +
+      '</div>' +
+      '<div class="upg-cost"><div class="upg-cost-row"><span>Upgrade Cost</span><b>Coming Soon</b></div><div class="upg-cost-row"><span>AXI</span><b>Burned</b></div></div>' +
+      '<button class="upg-btn" id="upgBtn" type="button" disabled>UPGRADE TO LEVEL '+next+'</button>' +
+      '<div class="upg-btn-note">Upgrade contract integration is pending.</div>';
+    $('upgBtn')?.addEventListener('click', onUpgradeClick);
+  }
+
+  function renderRechargeView(){
+    const {m,lvl,power,battery} = creatureStatsHtml(selectedId);
+    const has = selectedId != null;
+    const batteryValue = has ? String(battery) : '—';
+    const pct = /^\d+(?:\.\d+)?%$/.test(batteryValue) ? Math.max(0,Math.min(100,parseFloat(batteryValue))) : 0;
+    const pick = has
+      ? '<button class="upg-recharge-selected" id="upgRechargePickBtn" type="button">'+artHtml(selectedId)+'<span class="upg-sel-name">'+esc(m.name||'—')+'</span><span class="upg-sel-meta">'+(m.rarity?'<span class="upg-rarity '+rarityClass(m.rarity)+'">'+esc(m.rarity)+'</span>':'')+'<span class="upg-lvl-badge">Lv.'+lvl+'</span></span><span class="upg-sel-change">Change creature</span></button>'
+      : '<button class="upg-recharge-pick" id="upgRechargePickBtn" type="button"><span class="upg-pick-plus" aria-hidden="true">+</span><span class="upg-pick-text">Select a creature</span><span class="upg-pick-sub">Choose an NFT to recharge</span></button>';
+
+    els.panel.innerHTML =
+      '<div class="upg-power-card">' +
+        '<div class="upg-power-head"><div><div class="upg-power-title">Recharge</div><div class="upg-power-sub">Restore your creature\'s battery.</div></div><span class="upg-lvl-badge">'+esc(batteryValue)+'</span></div>' +
+        '<div class="upg-battery-big"><i style="width:'+pct+'%"></i></div>' +
+        '<div class="upg-power-stats">' +
+          '<div class="upg-power-stat"><span>Rarity</span><b>'+esc(m.rarity||'—')+'</b></div>' +
+          '<div class="upg-power-stat"><span>Level</span><b>'+esc(lvl)+'</b></div>' +
+          '<div class="upg-power-stat"><span>Battery</span><b>'+esc(batteryValue)+'</b></div>' +
+        '</div>' +
+        '<div class="upg-recharge-action"><button id="upgRechargeBtn" type="button" disabled>RECHARGE</button></div>' +
+        '<div class="upg-recharge-note">Recharge cost and on-chain integration are coming soon.</div>' +
+      '</div>';
+
+    // Put the image picker in the left column of the overall upgrade layout.
+    els.select.innerHTML = pick;
+    $('upgRechargePickBtn')?.addEventListener('click', e => openPicker(e.currentTarget));
+  }
+
+  function renderPanel(){
+    if(upgradeView === 'recharge') renderRechargeView();
+    else renderUpgradeView();
+  }
+
+  function renderAll(){
+    renderSelect();
+    renderPanel();
+  }
+
+  document.querySelectorAll('[data-upg-view]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      upgradeView = btn.dataset.upgView || 'level';
+      document.querySelectorAll('[data-upg-view]').forEach(x=>x.classList.toggle('active', x===btn));
+      renderAll();
+    });
+  });
+
+  function onUpgradeClick(){
+    // Intentionally blocked until the real NFT/AXI contracts are configured.
+    console.info('Axiverse Upgrade: waiting for on-chain NFT level + AXI burn integration.');
+  }
+
+  let lastFocus = null;
+  let pickerRun = 0;
+
+  function refocus(){
+    const a = document.activeElement;
+    if(!els.dialog.contains(a) || a === els.dialog){
+      const f = els.dialog.querySelector('button:not(:disabled),a[href]');
+      (f || els.dialog).focus();
+    }
+  }
+
+  function openModal(html, opener){
+    lastFocus = opener || document.activeElement;
+    els.dialog.innerHTML = html;
+    els.modal.hidden = false;
+    refocus();
+  }
+
+  function closeModal(){
+    pickerRun++;
+    els.modal.hidden = true;
+    els.dialog.innerHTML = '';
+    const target = (lastFocus && document.contains(lastFocus) && !lastFocus.disabled)
+      ? lastFocus
+      : $('upgPickBtn');
+    target?.focus();
+  }
+
+  function message(text, action=''){
+    return '<button class="upg-close" type="button" data-close aria-label="Close">×</button>' +
+      '<h3>Choose a creature</h3>' +
+      '<p class="upg-note">'+text+'</p>' +
+      '<div class="upg-dialog-actions">' +
+        '<button class="stk-btn stk-btn-ghost" type="button" data-close>Close</button>' +
+        action +
+      '</div>';
+  }
+
+  function pickerGrid(ids){
+    return '<button class="upg-close" type="button" data-close aria-label="Close">×</button>' +
+      '<h3>Choose a creature</h3>' +
+      '<p>Select an NFT from your Axiverse collection.</p>' +
+      '<div class="upg-picks">' +
+        ids.map(id=>{
+          const m = metaOf(id);
+          const lvl = levelOf(id);
+          return '<button class="upg-pick-item" type="button" data-pick="'+id+'">' +
+            artHtml(id,'upg-sel-art') +
+            '<span class="upg-pick-id">'+esc(m.name)+'</span>' +
+            '<span class="upg-pick-meta">' +
+              (m.rarity ? '<span class="upg-rarity '+rarityClass(m.rarity)+'">'+esc(m.rarity)+'</span>' : '') +
+              '<span class="upg-pick-lvl">Lv.'+lvl+'</span>' +
+            '</span>' +
+          '</button>';
+        }).join('') +
+      '</div>' +
+      '<div class="upg-dialog-actions"><button class="stk-btn stk-btn-ghost" type="button" data-close>Close</button></div>';
+  }
+
+  async function showPicker(){
+    const run = ++pickerRun;
+    const put = h => {
+      if(run !== pickerRun || els.modal.hidden) return false;
+      els.dialog.innerHTML = h;
+      refocus();
+      return true;
+    };
+
+    if(!bridge.available()){
+      return put(message('The wallet connector did not load. Refresh the page and try again.'));
+    }
+
+    if(!wallet.account){
+      return put(message(
+        'Connect your wallet to see the Axiverse NFTs you own.',
+        '<button class="stk-btn" type="button" data-upg-connect>Connect wallet</button>'
+      ));
+    }
+
+    if(!wallet.chainOk){
+      return put(message(
+        'Switch to '+esc(CONFIG.CHAIN_NAME)+' to view your collection.',
+        '<button class="stk-btn" type="button" data-upg-switch>Switch network</button>'
+      ));
+    }
+
+    if(!CONFIG.NFT_ADDRESS){
+      return put(message('The Axiverse NFT contract is not configured yet.'));
+    }
+
+    put(
+      '<button class="upg-close" type="button" data-close aria-label="Close">×</button>' +
+      '<h3>Choose a creature</h3>' +
+      '<p>Loading your collection…</p>' +
+      '<div class="upg-picks">'+
+        '<div class="upg-skel"></div>'.repeat(6) +
+      '</div>'
+    );
+
+    let ids = [];
+    try{
+      ids = await getOwnedIds(wallet.account);
+    }catch(e){
+      console.error('Axiverse Upgrade: collection load failed', e);
+      return put(message(
+        'Could not load your collection. Check the wallet connection and try again.',
+        '<button class="stk-btn" type="button" data-upg-retry>Try again</button>'
+      ));
+    }
+
+    if(!ids.length) return put(message('You don’t own any Axiverse NFTs yet.'));
+    if(!put(pickerGrid(ids))) return;
+
+    // Load metadata progressively without blocking the picker.
+    for(const id of ids){
+      loadMeta(id).then(()=>{
+        const item = els.dialog.querySelector('[data-pick="'+id+'"]');
+        if(!item) return;
+        item.querySelector('.upg-sel-art')?.replaceWith(
+          document.createRange().createContextualFragment(artHtml(id,'upg-sel-art')).firstChild
+        );
+      });
+    }
+  }
+
+  function openPicker(opener){
+    openModal('<h3>Choose a creature</h3><p>Checking your wallet…</p>', opener);
+    showPicker();
+  }
+
+  async function syncWallet(){
+    const w = bridge.snapshot();
+    wallet.account = w.account;
+    wallet.chainOk = w.chainOk;
+  }
+
+  function connect(){ bridge.connect(); }   // wallet.js modal; state arrives via bridge.subscribe below
+
+  async function switchChain(){
+    await bridge.switchChain();
+    await syncWallet();
+    levels = loadLevels();
+    renderAll();
+  }
+
+  els.modal.addEventListener('click', e=>{
+    if(e.target === els.modal || e.target.closest('[data-close]')){
+      closeModal();
+      return;
+    }
+
+    const pick = e.target.closest('[data-pick]');
+    if(pick){
+      selectedId = Number(pick.dataset.pick);
+      levels = loadLevels();
+      closeModal();
+      renderAll();
+    }
+  });
+
+  document.addEventListener('click', e=>{
+    const t = e.target;
+    if(!t.closest) return;
+
+    if(t.closest('[data-upg-connect]')) connect();
+    else if(t.closest('[data-upg-switch]')) switchChain();
+    else if(t.closest('[data-upg-retry]')) showPicker();
+  });
+
+  document.addEventListener('keydown', e=>{
+    if(els.modal.hidden) return;
+    if(e.key === 'Escape'){
+      closeModal();
+      return;
+    }
+    if(e.key === 'Tab'){
+      const f = [...els.dialog.querySelectorAll('button:not(:disabled),a[href]')];
+      if(!f.length){ e.preventDefault(); return; }
+      const a=f[0], z=f[f.length-1];
+      if(e.shiftKey && document.activeElement === a){e.preventDefault();z.focus();}
+      else if(!e.shiftKey && document.activeElement === z){e.preventDefault();a.focus();}
+    }
+  });
+
+  bridge.subscribe(async()=>{
+    await syncWallet();
+    levels = loadLevels();
+    selectedId = null;
+    renderAll();
+  });
+
+  levels = loadLevels();
+  renderAll();
+  syncWallet().then(()=>{
+    levels = loadLevels();
+    renderAll();
+  });
+})();
+</script>
+</body></html>
